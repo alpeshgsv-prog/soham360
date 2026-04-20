@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soham360 — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #ffd54f; --gold2: #ffb300; --gold3: #fff3cc;
+  --dark: #0a1620; --dark2: #0f2027; --dark3: #1a3a50;
+  --green: #22c55e; --green-bg: #f0fdf4;
+  --red: #ef4444; --red-bg: #fef2f2;
+  --blue: #3b82f6; --blue-bg: #eff6ff;
+  --amber: #f59e0b;
+  --bg: #f0f3f7;
+  --sidebar-w: 248px;
+  --topbar-h: 64px;
+  --border: #e8ecf0;
+  --text: #1a2332; --text2: #64748b; --text3: #94a3b8;
+  --card: #ffffff;
+  --radius: 14px;
+  --shadow: 0 4px 20px rgba(10,22,32,0.08);
+  --shadow-lg: 0 16px 48px rgba(10,22,32,0.14);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* ══════════ LOGIN ══════════ */
+#loginScreen{
+  min-height:100vh;
+  background:linear-gradient(135deg,#060e14 0%,#0a1620 40%,#0f2a38 100%);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+#loginScreen::before{
+  content:'360°';position:absolute;
+  font-size:280px;font-weight:900;color:rgba(255,213,79,0.04);
+  letter-spacing:-10px;pointer-events:none;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.login-box{
+  background:#fff;border-radius:24px;padding:52px 48px;
+  width:100%;max-width:440px;
+  box-shadow:0 60px 120px rgba(0,0,0,0.4);
+  position:relative;z-index:1;
+}
+.login-logo{text-align:center;margin-bottom:8px;}
+.login-logo h1{font-size:32px;font-weight:900;color:var(--dark);letter-spacing:-1px;}
+.login-logo h1 span{color:var(--gold2);}
+.login-logo p{color:var(--text2);font-size:14px;margin-top:6px;}
+.login-divider{height:1px;background:var(--border);margin:28px 0;}
+.login-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;display:block;}
+.login-box input{
+  width:100%;padding:13px 16px;border:2px solid var(--border);
+  border-radius:10px;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;
+  outline:none;transition:border 0.2s,box-shadow 0.2s;margin-bottom:14px;color:var(--text);
+}
+.login-box input:focus{border-color:var(--gold2);box-shadow:0 0 0 4px rgba(255,179,0,0.1);}
+.login-box input::placeholder{color:var(--text3);}
+.btn-login{
+  width:100%;padding:14px;margin-top:6px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;
+  cursor:pointer;transition:all 0.2s;color:#111;letter-spacing:0.2px;
+}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,179,0,0.45);}
+.login-error{color:var(--red);font-size:13px;margin-top:12px;min-height:18px;text-align:center;font-weight:600;}
+
+/* ══════════ TOPBAR ══════════ */
+#adminPanel{display:none;}
+.topbar{
+  background:var(--dark);padding:0 28px;height:var(--topbar-h);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.topbar-logo{font-size:20px;font-weight:900;color:#fff;letter-spacing:-0.5px;display:flex;align-items:center;gap:10px;}
+.topbar-logo span{color:var(--gold);}
+.topbar-badge{background:rgba(255,213,79,0.15);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:3px 10px;border-radius:20px;border:1px solid rgba(255,213,79,0.25);}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.topbar-user{color:#64748b;font-size:13px;display:flex;align-items:center;gap:6px;}
+.topbar-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#111;}
+.btn-logout{
+  background:rgba(255,255,255,0.07);color:#94a3b8;border:1px solid rgba(255,255,255,0.1);
+  padding:7px 15px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s;
+}
+.btn-logout:hover{background:rgba(255,255,255,0.14);color:#fff;}
+
+/* ══════════ LAYOUT ══════════ */
+.admin-layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:calc(100vh - var(--topbar-h));}
+
+/* ══════════ SIDEBAR ══════════ */
+.sidebar{
+  background:#fff;border-right:1px solid var(--border);
+  padding:20px 0 32px;overflow-y:auto;
+  position:sticky;top:var(--topbar-h);height:calc(100vh - var(--topbar-h));
+}
+.sidebar-section-title{
+  font-size:10px;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:1.2px;
+  padding:20px 20px 7px;
+}
+.sidebar-menu{list-style:none;}
+.sidebar-menu li a{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 20px;color:var(--text2);text-decoration:none;
+  font-size:13px;font-weight:600;transition:all 0.15s;
+  border-left:3px solid transparent;border-radius:0 8px 8px 0;
+  margin:1px 8px 1px 0;
+}
+.sidebar-menu li a:hover{color:var(--dark);background:#fef9e7;border-left-color:var(--gold);}
+.sidebar-menu li a.active{color:var(--dark);background:linear-gradient(90deg,#fff8e1,#fffbf0);border-left-color:var(--gold2);font-weight:700;}
+.sidebar-icon{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;background:#f0f3f7;flex-shrink:0;
+  transition:background 0.15s;
+}
+.sidebar-menu li a.active .sidebar-icon{background:rgba(255,179,0,0.15);}
+.sidebar-menu li a:hover .sidebar-icon{background:#fef3c7;}
+.sidebar-new-badge{background:var(--gold);color:#111;font-size:9px;font-weight:800;padding:2px 7px;border-radius:10px;margin-left:auto;letter-spacing:0.3px;}
+
+/* ══════════ MAIN ══════════ */
+.main-content{padding:32px;overflow-y:auto;}
+.page{display:none;}
+.page.active{display:block;}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;}
+.page-header-text h2{font-size:22px;font-weight:800;letter-spacing:-0.3px;}
+.page-header-text p{color:var(--text2);font-size:13px;margin-top:4px;}
+
+/* ══════════ STATS ══════════ */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{
+  background:var(--card);border-radius:var(--radius);padding:22px 20px;
+  box-shadow:var(--shadow);border:1px solid var(--border);
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.stat-icon-wrap{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.stat-icon-wrap.gold{background:rgba(255,213,79,0.15);}
+.stat-icon-wrap.green{background:var(--green-bg);}
+.stat-icon-wrap.blue{background:var(--blue-bg);}
+.stat-icon-wrap.amber{background:#fffbeb;}
+.stat-trend{font-size:11px;font-weight:700;color:var(--green);background:var(--green-bg);padding:3px 8px;border-radius:20px;}
+.stat-num{font-size:28px;font-weight:900;color:var(--dark);letter-spacing:-1px;}
+.stat-label{font-size:12px;color:var(--text2);margin-top:3px;font-weight:500;}
+
+/* ══════════ QUICK ACTIONS ══════════ */
+.quick-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px;}
+.quick-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+}
+.quick-card:hover{border-color:var(--gold2);background:#fffbf0;transform:translateY(-2px);box-shadow:var(--shadow);}
+.quick-card-icon{width:40px;height:40px;border-radius:10px;background:#f0f3f7;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.quick-card-label{font-size:13px;font-weight:700;color:var(--dark);}
+.quick-card-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+
+/* ══════════ ACTIVITY ══════════ */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:0;}
+.info-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.info-card h3{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.info-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f8f9fb;}
+.info-item:last-child{border-bottom:none;}
+.info-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.info-dot.amber{background:var(--amber);}
+.info-dot.blue{background:var(--blue);}
+.info-text{font-size:13px;color:var(--text);font-weight:500;}
+.info-sub{font-size:11px;color:var(--text2);}
+
+/* ══════════ TABLE ══════════ */
+.data-table-wrap{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border);}
+.table-header h3{font-size:15px;font-weight:700;}
+.table-search{
+  display:flex;align-items:center;gap:8px;
+  background:#f0f3f7;border-radius:8px;padding:8px 12px;
+  font-size:13px;color:var(--text2);border:1.5px solid transparent;
+  transition:border 0.2s;
+}
+.table-search:focus-within{border-color:var(--gold2);background:#fff;}
+.table-search input{border:none;background:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--text);width:180px;}
+.table-search input::placeholder{color:var(--text3);}
+table{width:100%;border-collapse:collapse;}
+th{
+  text-align:left;padding:11px 20px;
+  font-size:10px;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.6px;
+  background:#fafbfc;border-bottom:1px solid var(--border);
+}
+td{padding:13px 20px;border-bottom:1px solid #f6f7f9;font-size:13px;vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbfc;}
+.action-btns{display:flex;gap:6px;}
+.btn-edit,.btn-delete,.btn-preview{
+  padding:6px 13px;border-radius:7px;font-size:11px;font-weight:700;
+  cursor:pointer;border:none;transition:all 0.15s;
+  font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:0.2px;
+}
+.btn-edit{background:#eff6ff;color:#2563eb;}
+.btn-edit:hover{background:#dbeafe;}
+.btn-delete{background:#fef2f2;color:#dc2626;}
+.btn-delete:hover{background:#fee2e2;}
+.btn-preview{background:#f0fdf4;color:#16a34a;}
+.btn-preview:hover{background:#dcfce7;}
+
+/* TYPE BADGE */
+.type-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;
+  letter-spacing:0.3px;text-transform:uppercase;
+}
+.type-badge.google{background:#e8f5e9;color:#2e7d32;}
+.type-badge.cloudpano{background:rgba(255,213,79,0.2);color:#8a5d00;}
+.type-badge.standard{background:#f0f4ff;color:#3730a3;}
+.type-badge.premium{background:linear-gradient(90deg,rgba(255,213,79,0.25),rgba(255,179,0,0.15));color:#92400e;}
+
+/* ══════════ BUTTONS ══════════ */
+.btn-add{
+  background:var(--dark);color:#fff;border:none;
+  padding:10px 18px;border-radius:9px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:7px;
+}
+.btn-add:hover{background:var(--dark3);box-shadow:0 6px 18px rgba(10,22,32,0.25);}
+.btn-add.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;}
+.btn-add.gold:hover{box-shadow:0 6px 18px rgba(255,179,0,0.4);}
+
+/* ══════════ SETTINGS CARD ══════════ */
+.settings-card{
+  background:var(--card);border-radius:var(--radius);padding:28px;
+  box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;
+}
+.settings-card-header{display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.settings-card-header h3{font-size:15px;font-weight:700;}
+.settings-card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:#f0f3f7;}
+
+/* ══════════ FORM ══════════ */
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:11px 13px;
+  border:2px solid var(--border);border-radius:10px;
+  font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;
+  outline:none;transition:border 0.2s,box-shadow 0.2s;
+  resize:vertical;color:var(--text);background:#fff;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:var(--gold2);box-shadow:0 0 0 4px rgba(255,179,0,0.08);
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text3);}
+.form-group small{color:var(--text3);font-size:11px;margin-top:5px;display:block;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.char-count{text-align:right;font-size:11px;color:var(--text3);margin-top:4px;}
+.char-count.warn{color:var(--amber);}
+.char-count.over{color:var(--red);}
+
+/* Tour type toggle */
+.tour-type-toggle{display:flex;gap:10px;margin-bottom:4px;}
+.tour-type-btn{
+  flex:1;padding:10px;border-radius:10px;border:2px solid var(--border);
+  background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all 0.18s;color:var(--text2);text-align:center;
+}
+.tour-type-btn.active{border-color:var(--gold2);background:#fff8e1;color:var(--dark);font-weight:700;}
+
+/* ══════════ MODAL ══════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.55);
+  display:none;align-items:center;justify-content:center;z-index:500;padding:20px;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:#fff;border-radius:20px;padding:32px;
+  width:100%;max-width:580px;
+  box-shadow:0 60px 120px rgba(0,0,0,0.3);
+  max-height:90vh;overflow-y:auto;
+  animation:modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes modalIn{from{opacity:0;transform:scale(0.92) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-title{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.modal-title-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.modal-title h3{font-size:18px;font-weight:800;}
+.modal-title p{font-size:12px;color:var(--text2);margin-top:2px;}
+.modal-actions{display:flex;gap:10px;margin-top:24px;justify-content:flex-end;}
+.btn-cancel{
+  padding:11px 22px;border-radius:10px;border:2px solid var(--border);
+  background:#fff;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;
+}
+.btn-cancel:hover{border-color:#94a3b8;color:var(--text);}
+.btn-save{
+  padding:11px 26px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#111;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:800;cursor:pointer;transition:all 0.2s;
+}
+.btn-save:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,179,0,0.4);}
+
+/* CloudPano fields */
+.cp-fields{display:none;}
+.gm-fields{display:block;}
+
+/* ══════════ SECTION DIVIDER ══════════ */
+.section-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:24px 0 20px;
+}
+.section-divider span{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;white-space:nowrap;}
+.section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ══════════ TOAST ══════════ */
+.toast{
+  position:fixed;bottom:28px;right:28px;
+  background:var(--dark);color:#fff;
+  padding:14px 20px;border-radius:12px;
+  font-size:13px;font-weight:600;
+  box-shadow:0 16px 40px rgba(0,0,0,0.3);
+  transform:translateY(80px);opacity:0;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  z-index:999;display:flex;align-items:center;gap:8px;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--red);}
+
+/* ══════════ EMPTY STATE ══════════ */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text2);}
+.empty-state-icon{font-size:48px;margin-bottom:16px;opacity:0.5;}
+.empty-state h4{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.empty-state p{font-size:13px;}
+
+/* ══════════ THUMB PREVIEW ══════════ */
+.thumb-g{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,#0f2027,#2c5364);display:flex;align-items:center;justify-content:center;}
+.thumb-cp{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,#0f2a1a,#1a4a30);display:flex;align-items:center;justify-content:center;}
+.thumb-svg svg{width:20px;height:20px;}
+
+/* ══════════ ALERT BOX ══════════ */
+.alert-box{
+  border-radius:10px;padding:14px 16px;
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;margin-bottom:16px;
+}
+.alert-box.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;}
+.alert-box.warning{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
+.alert-box.success{background:var(--green-bg);border:1px solid #bbf7d0;color:#166534;}
+
+/* ══════════ RESPONSIVE ══════════ */
+@media(max-width:900px){
+  .admin-layout{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .form-row,.form-row-3{grid-template-columns:1fr;}
+  .info-grid{grid-template-columns:1fr;}
+  .quick-actions{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .main-content{padding:20px 16px;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .quick-actions{grid-template-columns:1fr;}
+  .modal{padding:24px 20px;}
+  .page-header{flex-direction:column;gap:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <h1>Soham<span>360</span></h1>
+      <p>Admin Panel — Secure Access</p>
+    </div>
+    <div class="login-divider"></div>
+    <label class="login-label">Email Address</label>
+    <input type="text" id="loginEmail" placeholder="admin@soham360.com" />
+    <label class="login-label">Password</label>
+    <input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')handleLogin()" />
+    <button class="btn-login" onclick="handleLogin()">Sign In →</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ══════════ ADMIN PANEL ══════════ -->
+<div id="adminPanel">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      Soham<span>360</span>
+      <span class="topbar-badge">Admin</span>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-user">
+        <div class="topbar-avatar" id="topbarAvatar">A</div>
+        <span id="topbarUser"></span>
+      </div>
+      <button class="btn-logout" onclick="handleLogout()">↩ Logout</button>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="sidebar-section-title">Dashboard</li>
+        <li><a href="#" class="active" onclick="return showPage('dashboard',this)">
+          <span class="sidebar-icon">📊</span> Overview
+        </a></li>
+
+        <li class="sidebar-section-title">Portfolio</li>
+        <li><a href="#" onclick="return showPage('gallery',this)">
+          <span class="sidebar-icon">🌐</span> Google 360 Tours
+        </a></li>
+        <li><a href="#" onclick="return showPage('customTours',this)">
+          <span class="sidebar-icon">⭐</span> Customized Tours
+          <span class="sidebar-new-badge">NEW</span>
+        </a></li>
+        <li><a href="#" onclick="return showPage('realEstate',this)">
+          <span class="sidebar-icon">🏠</span> Real Estate 360 Tour
+          <span class="sidebar-new-badge">NEW</span>
+        </a></li>
+
+        <li class="sidebar-section-title">Website Sections</li>
+        <li><a href="#" onclick="return showPage('industries',this)">
+          <span class="sidebar-icon">🏢</span> Industries
+        </a></li>
+        <li><a href="#" onclick="return showPage('testimonials',this)">
+          <span class="sidebar-icon">💬</span> Testimonials
+          <span class="sidebar-new-badge">NEW</span>
+        </a></li>
+        <li><a href="#" onclick="return showPage('faq',this)">
+          <span class="sidebar-icon">❓</span> FAQ
+          <span class="sidebar-new-badge">NEW</span>
+        </a></li>
+        <li><a href="#" onclick="return showPage('howItWorks',this)">
+          <span class="sidebar-icon">⚙️</span> How It Works
+        </a></li>
+        <li><a href="#" onclick="return showPage('pricing',this)">
+          <span class="sidebar-icon">💰</span> Pricing
+          <span class="sidebar-new-badge">NEW</span>
+        </a></li>
+
+        <li class="sidebar-section-title">Site Settings</li>
+        <li><a href="#" onclick="return showPage('hero',this)">
+          <span class="sidebar-icon">🏠</span> Hero Section
+        </a></li>
+        <li><a href="#" onclick="return showPage('contact',this)">
+          <span class="sidebar-icon">📞</span> Contact Info
+        </a></li>
+        <li><a href="#" onclick="return showPage('seo',this)">
+          <span class="sidebar-icon">🔍</span> SEO / Meta
+        </a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>Welcome Back 👋</h2>
+            <p>Soham360 website ka poora content yahan se manage karo</p>
+          </div>
+          <a href="../index.html" target="_blank" class="btn-add">↗ View Website</a>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrap gold">🌐</div>
+              <span class="stat-trend">Live</span>
+            </div>
+            <div class="stat-num" id="statGallery">—</div>
+            <div class="stat-label">Google 360 Tours</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrap amber">⭐</div>
+              <span class="stat-trend">Live</span>
+            </div>
+            <div class="stat-num" id="statCustomTours">—</div>
+            <div class="stat-label">Customized Tours</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrap blue">🏢</div>
+            </div>
+            <div class="stat-num" id="statIndustries">—</div>
+            <div class="stat-label">Industries</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrap green">❓</div>
+            </div>
+            <div class="stat-num" id="statFaq">—</div>
+            <div class="stat-label">FAQ Items</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrap amber">🏠</div>
+              <span class="stat-trend">Live</span>
+            </div>
+            <div class="stat-num" id="statRealEstate">—</div>
+            <div class="stat-label">Real Estate Tours</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrap gold">💬</div>
+            </div>
+            <div class="stat-num" id="statTestimonials">—</div>
+            <div class="stat-label">Testimonials</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrap green">🔥</div>
+              <span class="stat-trend">●  Online</span>
+            </div>
+            <div class="stat-num" style="font-size:18px;color:var(--green);">Firebase</div>
+            <div class="stat-label">Database Status</div>
+          </div>
+        </div>
+
+        <div class="section-divider"><span>Quick Actions</span></div>
+        <div class="quick-actions">
+          <a class="quick-card" onclick="return showPage('gallery', document.querySelector('[onclick*=\"gallery\"]'))">
+            <div class="quick-card-icon">🌐</div>
+            <div><div class="quick-card-label">Add Google Tour</div><div class="quick-card-sub">Portfolio me nayi entry</div></div>
+          </a>
+          <a class="quick-card" onclick="return showPage('customTours', document.querySelector('[onclick*=\"customTours\"]'))">
+            <div class="quick-card-icon">⭐</div>
+            <div><div class="quick-card-label">Add Customized Tour</div><div class="quick-card-sub">CloudPano tour add karo</div></div>
+          </a>
+          <a class="quick-card" onclick="return showPage('realEstate', document.querySelector('[onclick*=\"realEstate\"]'))">
+            <div class="quick-card-icon">🏠</div>
+            <div><div class="quick-card-label">Real Estate Tour</div><div class="quick-card-sub">Property tour add/edit karo</div></div>
+          </a>
+          <a class="quick-card" onclick="return showPage('testimonials', document.querySelector('[onclick*=\"testimonials\"]'))">
+            <div class="quick-card-icon">💬</div>
+            <div><div class="quick-card-label">Add Testimonial</div><div class="quick-card-sub">Client review add karo</div></div>
+          </a>
+          <a class="quick-card" onclick="return showPage('faq', document.querySelector('[onclick*=\"faq\"]'))">
+            <div class="quick-card-icon">❓</div>
+            <div><div class="quick-card-label">Add FAQ</div><div class="quick-card-sub">Question & answer add karo</div></div>
+          </a>
+        </div>
+
+        <div class="section-divider"><span>Content Sections</span></div>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>📋 Manage Sections</h3>
+            <div class="info-item"><span class="info-dot"></span><div><div class="info-text">Google 360 Tours</div><div class="info-sub">Portfolio gallery cards</div></div></div>
+            <div class="info-item"><span class="info-dot amber"></span><div><div class="info-text">Customized Tours ⭐ New</div><div class="info-sub">CloudPano interactive tours</div></div></div>
+            <div class="info-item"><span class="info-dot" style="background:#e74c3c;"></span><div><div class="info-text">Real Estate 360 Tour 🏠 New</div><div class="info-sub">Property virtual tours (CloudPano)</div></div></div>
+            <div class="info-item"><span class="info-dot blue"></span><div><div class="info-text">Industries</div><div class="info-sub">Industries We Specialize In</div></div></div>
+            <div class="info-item"><span class="info-dot"></span><div><div class="info-text">Testimonials ⭐ New</div><div class="info-sub">Client reviews section</div></div></div>
+            <div class="info-item"><span class="info-dot amber"></span><div><div class="info-text">FAQ ⭐ New</div><div class="info-sub">Frequently asked questions</div></div></div>
+            <div class="info-item"><span class="info-dot blue"></span><div><div class="info-text">Pricing ⭐ New</div><div class="info-sub">2 package details</div></div></div>
+          </div>
+          <div class="info-card">
+            <h3>⚙️ Site Settings</h3>
+            <div class="info-item"><span class="info-dot"></span><div><div class="info-text">Hero Section</div><div class="info-sub">Main heading, CTA, features</div></div></div>
+            <div class="info-item"><span class="info-dot blue"></span><div><div class="info-text">How It Works</div><div class="info-sub">3-step process section</div></div></div>
+            <div class="info-item"><span class="info-dot"></span><div><div class="info-text">Contact Info</div><div class="info-sub">Phone, WhatsApp, person name</div></div></div>
+            <div class="info-item"><span class="info-dot amber"></span><div><div class="info-text">SEO / Meta Tags</div><div class="info-sub">Title, description, keywords</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GOOGLE 360 TOURS ── -->
+      <div class="page" id="page-gallery">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>Google 360 Tours</h2>
+            <p>Portfolio section ke Google Maps virtual tour cards manage karo</p>
+          </div>
+          <button class="btn-add" onclick="openGalleryModal()">+ Add Tour</button>
+        </div>
+        <div class="data-table-wrap">
+          <div class="table-header">
+            <h3>All Google 360 Tours</h3>
+            <div class="table-search">
+              🔍 <input type="text" placeholder="Search tours..." oninput="filterTable(this.value,'galleryTableBody')">
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>Preview</th><th>Category</th><th>Tour Name</th><th>Order</th><th>Actions</th></tr></thead>
+            <tbody id="galleryTableBody">
+              <tr><td colspan="5" style="text-align:center;color:#aaa;padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── CUSTOMIZED TOURS ── -->
+      <div class="page" id="page-customTours">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>⭐ Customized 360 Tours</h2>
+            <p>CloudPano interactive virtual tours manage karo — portfolio me dikhenge</p>
+          </div>
+          <button class="btn-add gold" onclick="openCustomTourModal()">+ Add Customized Tour</button>
+        </div>
+        <div class="alert-box info">
+          <span>ℹ️</span>
+          <div>Customized Tours CloudPano platform pe host hote hain. Tour add karne ke liye <strong>CloudPano Tour ID</strong> chahiye (e.g. <code>_ZNIYdF5RI</code>). Ye ID CloudPano dashboard se milegi.</div>
+        </div>
+        <div class="data-table-wrap">
+          <div class="table-header">
+            <h3>All Customized Tours</h3>
+            <div class="table-search">
+              🔍 <input type="text" placeholder="Search tours..." oninput="filterTable(this.value,'customToursTableBody')">
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>Preview</th><th>Category</th><th>Tour Name</th><th>CloudPano ID</th><th>Order</th><th>Actions</th></tr></thead>
+            <tbody id="customToursTableBody">
+              <tr><td colspan="6" style="text-align:center;color:#aaa;padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── REAL ESTATE 360 TOUR ── -->
+      <div class="page" id="page-realEstate">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>🏠 Real Estate 360 Tour</h2>
+            <p>Real Estate page ke property virtual tours manage karo — CloudPano tours</p>
+          </div>
+          <button class="btn-add gold" onclick="openRealEstateModal()">+ Add Property Tour</button>
+        </div>
+        <div class="alert-box info">
+          <span>ℹ️</span>
+          <div>Ye tours <strong>Real Estate 360 Tour page</strong> ke portfolio section me dikhenge. Har property ke liye <strong>CloudPano Tour ID</strong> aur property name dena hoga.</div>
+        </div>
+        <div class="data-table-wrap">
+          <div class="table-header">
+            <h3>All Real Estate Property Tours</h3>
+            <div class="table-search">
+              🔍 <input type="text" placeholder="Search properties..." oninput="filterTable(this.value,'realEstateTableBody')">
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>Preview</th><th>Property Name</th><th>Subtitle</th><th>CloudPano ID</th><th>Order</th><th>Actions</th></tr></thead>
+            <tbody id="realEstateTableBody">
+              <tr><td colspan="6" style="text-align:center;color:#aaa;padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── INDUSTRIES ── -->
+      <div class="page" id="page-industries">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>Industries</h2>
+            <p>"Industries We Specialize In" section ke cards manage karo</p>
+          </div>
+          <button class="btn-add" onclick="openIndustryModal()">+ Add Industry</button>
+        </div>
+        <div class="data-table-wrap">
+          <div class="table-header"><h3>All Industries</h3></div>
+          <table>
+            <thead><tr><th>Icon</th><th>Title</th><th>Description</th><th>Order</th><th>Actions</th></tr></thead>
+            <tbody id="industriesTableBody">
+              <tr><td colspan="5" style="text-align:center;color:#aaa;padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TESTIMONIALS ── -->
+      <div class="page" id="page-testimonials">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>Testimonials</h2>
+            <p>Client reviews section manage karo — website pe automatically dikhenge</p>
+          </div>
+          <button class="btn-add" onclick="openTestimonialModal()">+ Add Testimonial</button>
+        </div>
+        <div class="data-table-wrap">
+          <div class="table-header"><h3>All Testimonials</h3></div>
+          <table>
+            <thead><tr><th>Stars</th><th>Client Name</th><th>Business</th><th>Quote (Preview)</th><th>Order</th><th>Actions</th></tr></thead>
+            <tbody id="testimonialsTableBody">
+              <tr><td colspan="6" style="text-align:center;color:#aaa;padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── FAQ ── -->
+      <div class="page" id="page-faq">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>FAQ</h2>
+            <p>Frequently Asked Questions section manage karo</p>
+          </div>
+          <button class="btn-add" onclick="openFaqModal()">+ Add FAQ</button>
+        </div>
+        <div class="data-table-wrap">
+          <div class="table-header"><h3>All FAQ Items</h3></div>
+          <table>
+            <thead><tr><th>Question</th><th>Answer (Preview)</th><th>Tag</th><th>Order</th><th>Actions</th></tr></thead>
+            <tbody id="faqTableBody">
+              <tr><td colspan="5" style="text-align:center;color:#aaa;padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── HOW IT WORKS ── -->
+      <div class="page" id="page-howItWorks">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>How It Works</h2>
+            <p>3-step process section ke steps edit karo</p>
+          </div>
+          <button class="btn-add" onclick="openHowItWorksModal()">+ Add Step</button>
+        </div>
+        <div class="data-table-wrap">
+          <div class="table-header"><h3>All Steps</h3></div>
+          <table>
+            <thead><tr><th>#</th><th>Icon</th><th>Title</th><th>Description</th><th>Outcome</th><th>Actions</th></tr></thead>
+            <tbody id="howItWorksTableBody">
+              <tr><td colspan="6" style="text-align:center;color:#aaa;padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── PRICING ── -->
+      <div class="page" id="page-pricing">
+        <div class="page-header">
+          <div class="page-header-text">
+            <h2>Pricing Packages</h2>
+            <p>2 packages ki details edit karo — website pe automatically update hoga</p>
+          </div>
+        </div>
+        <div class="alert-box warning">
+          <span>⚠️</span>
+          <div>Pricing changes website pe live ho jayenge. Amount update karte waqt carefully karo.</div>
+        </div>
+
+        <!-- Package 1 -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-icon">🌐</div>
+            <div>
+              <h3>Package 1 — Google 360 Virtual Tour</h3>
+              <p style="font-size:12px;color:var(--text2);margin-top:2px;">Standard one-time package</p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Package Name</label>
+              <input type="text" id="pkg1Name" placeholder="Google 360 Virtual Tour" />
+            </div>
+            <div class="form-group">
+              <label>Starting Price (₹)</label>
+              <input type="number" id="pkg1Price" placeholder="5000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Badge Label</label>
+            <input type="text" id="pkg1Badge" placeholder="Standard" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input type="text" id="pkg1Desc" placeholder="Custom packages available for all business sizes" />
+          </div>
+          <div class="form-group">
+            <label>Features (one per line)</label>
+            <textarea id="pkg1Features" rows="7" placeholder="Upto 6 Panorama shots&#10;Professional 360° photoshoot at your location&#10;Published on Google Maps & Street View&#10;Embeddable on your website&#10;Fast turnaround — live in 7 Days&#10;One-time investment, no recurring charges&#10;End-to-end support included"></textarea>
+          </div>
+          <div class="form-group">
+            <label>CTA Button Text</label>
+            <input type="text" id="pkg1Cta" placeholder="Get This Package" />
+          </div>
+          <button class="btn-save" onclick="savePricing(1)">Save Package 1</button>
+        </div>
+
+        <!-- Package 2 -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-icon">⭐</div>
+            <div>
+              <h3>Package 2 — Customized 360 Virtual Tour</h3>
+              <p style="font-size:12px;color:var(--text2);margin-top:2px;">Premium package with recurring charges</p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Package Name</label>
+              <input type="text" id="pkg2Name" placeholder="Customized 360 Virtual Tour" />
+            </div>
+            <div class="form-group">
+              <label>Starting Price (₹)</label>
+              <input type="number" id="pkg2Price" placeholder="10000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Badge Label</label>
+            <input type="text" id="pkg2Badge" placeholder="Premium" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input type="text" id="pkg2Desc" placeholder="Custom packages available for all business sizes" />
+          </div>
+          <div class="form-group">
+            <label>Features (one per line — prefix with ⚠ for warning items)</label>
+            <textarea id="pkg2Features" rows="9" placeholder="Upto 6 Panorama shots&#10;Professional 360° photoshoot at your location&#10;Smart Navigation System&#10;Custom Logo inside the tour&#10;Interactive Hotspots — clickable points showing text, images, videos & links&#10;Embeddable on your website&#10;Fast turnaround — live in 7 Days&#10;⚠ Recurring charges applicable&#10;End-to-end support included"></textarea>
+            <small>Lines starting with ⚠ will show as warning (orange) on website</small>
+          </div>
+          <div class="form-group">
+            <label>CTA Button Text</label>
+            <input type="text" id="pkg2Cta" placeholder="Get This Package" />
+          </div>
+          <button class="btn-save" onclick="savePricing(2)">Save Package 2</button>
+        </div>
+      </div>
+
+      <!-- ── HERO ── -->
+      <div class="page" id="page-hero">
+        <div class="page-header">
+          <div class="page-header-text"><h2>Hero Section</h2><p>Main page ka top section</p></div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-icon">🏠</div>
+            <h3>Hero Content</h3>
+          </div>
+          <div class="form-group">
+            <label>Main Heading</label>
+            <input type="text" id="heroHeading1" placeholder="Get More Customers with Google 360° Virtual Tours" />
+          </div>
+          <div class="form-group">
+            <label>Highlighted Text (shown in yellow)</label>
+            <input type="text" id="heroHighlight" placeholder="Google 360° Virtual Tours" />
+          </div>
+          <div class="form-group">
+            <label>Subtext / Description</label>
+            <textarea id="heroSubtext" rows="3" placeholder="Turn online visitors into real customers..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Primary CTA Button</label>
+              <input type="text" id="heroCta" placeholder="📞 Get Free Demo" />
+            </div>
+            <div class="form-group">
+              <label>Trust Line Text</label>
+              <input type="text" id="heroTrustLine" placeholder="Increase walk-ins · Rank higher on Google" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Hero Badge Text</label>
+            <input type="text" id="heroBadge" placeholder="✔ Trusted by 100+ Businesses in Gujarat" />
+          </div>
+          <div class="form-group">
+            <label>Feature Points (one per line)</label>
+            <textarea id="heroFeatures" rows="4" placeholder="📱 Mobile-first viewing experience&#10;🗺️ Live on Google Maps&#10;🧭 Interactive 360° navigation&#10;⭐ Build trust before every visit"></textarea>
+          </div>
+          <button class="btn-save" onclick="saveHero()">Save Hero Section</button>
+        </div>
+      </div>
+
+      <!-- ── CONTACT ── -->
+      <div class="page" id="page-contact">
+        <div class="page-header">
+          <div class="page-header-text"><h2>Contact Info</h2><p>Contact section ki details update karo</p></div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-icon">📞</div>
+            <h3>Contact Details</h3>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Contact Person Name</label>
+              <input type="text" id="contactName" placeholder="Mr. Alpesh" />
+            </div>
+            <div class="form-group">
+              <label>Role / Designation</label>
+              <input type="text" id="contactRole" placeholder="360° Virtual Tour Specialist" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="text" id="contactPhone" placeholder="8758685806" />
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Number (with country code)</label>
+              <input type="text" id="contactWhatsapp" placeholder="918758685806" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Section Heading</label>
+            <input type="text" id="contactHeading" placeholder="Get Your Free 360° Tour Consultation" />
+          </div>
+          <div class="form-group">
+            <label>Section Tagline</label>
+            <input type="text" id="contactTagline" placeholder="Talk to us today — we'll help you showcase your space..." />
+          </div>
+          <div class="form-group">
+            <label>Microcopy (below buttons)</label>
+            <input type="text" id="contactMicrocopy" placeholder="No commitment required · Free consultation in 10 minutes" />
+          </div>
+          <button class="btn-save" onclick="saveContact()">Save Contact Info</button>
+        </div>
+      </div>
+
+      <!-- ── SEO ── -->
+      <div class="page" id="page-seo">
+        <div class="page-header">
+          <div class="page-header-text"><h2>SEO / Meta Tags</h2><p>Google search ranking ke liye important</p></div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-icon">🔍</div>
+            <h3>SEO Settings</h3>
+          </div>
+          <div class="form-group">
+            <label>Page Title</label>
+            <input type="text" id="seoTitle" placeholder="Google 360 Virtual Tour Services | Get More Customers – Soham360" oninput="updateCharCount(this,'seoTitleCount',60)" />
+            <div class="char-count" id="seoTitleCount">0 / 60</div>
+          </div>
+          <div class="form-group">
+            <label>Meta Description</label>
+            <textarea id="seoDesc" rows="3" placeholder="Boost your business with Google 360 virtual tours. Increase trust, attract customers, and rank higher on Google..." oninput="updateCharCount(this,'seoDescCount',160)"></textarea>
+            <div class="char-count" id="seoDescCount">0 / 160</div>
+          </div>
+          <div class="form-group">
+            <label>Meta Keywords</label>
+            <textarea id="seoKeywords" rows="3" placeholder="Google 360 Virtual Tour, virtual tour services India, 360 virtual tour Ahmedabad..."></textarea>
+            <small>Keywords comma se alag karo</small>
+          </div>
+          <div class="form-group">
+            <label>URL Slug</label>
+            <input type="text" id="seoSlug" placeholder="/google-360-virtual-tour-services" />
+          </div>
+          <button class="btn-save" onclick="saveSEO()">Save SEO Settings</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ══════════ MODALS ══════════ -->
+
+<!-- Google 360 Tour Modal -->
+<div class="modal-overlay" id="galleryModal">
+  <div class="modal">
+    <div class="modal-title">
+      <div class="modal-title-icon">🌐</div>
+      <div><h3 id="galleryModalTitle">Add Google 360 Tour</h3><p>Google Maps embed URL se tour add karo</p></div>
+    </div>
+    <input type="hidden" id="galleryEditId" />
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="gCat">
+          <option value="">Select Category</option>
+          <option>Restaurant</option><option>Cafe</option><option>Hotels</option>
+          <option>Showrooms</option><option>Corporate Offices</option><option>Industries</option>
+          <option>Schools & Colleges</option><option>Saloons & Spa</option>
+          <option>Hospitals & Clinics</option><option>Real Estate</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Display Order</label>
+        <input type="number" id="gOrder" placeholder="1" min="1" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tour Name</label>
+      <input type="text" id="gName" placeholder="Restaurant Virtual Tour" />
+    </div>
+    <div class="form-group">
+      <label>Google Maps Embed URL</label>
+      <textarea id="gUrl" rows="3" placeholder="https://www.google.com/maps/embed?pb=..."></textarea>
+      <small>Google Maps → Share → Embed a map → src="..." se URL copy karo</small>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('galleryModal')">Cancel</button>
+      <button class="btn-save" onclick="saveGallery()">Save Tour</button>
+    </div>
+  </div>
+</div>
+
+<!-- Customized Tour Modal -->
+<div class="modal-overlay" id="customTourModal">
+  <div class="modal">
+    <div class="modal-title">
+      <div class="modal-title-icon">⭐</div>
+      <div><h3 id="customTourModalTitle">Add Customized Tour</h3><p>CloudPano tour portfolio me add karo</p></div>
+    </div>
+    <input type="hidden" id="customTourEditId" />
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="ctCat">
+          <option value="">Select Category</option>
+          <option>Schools & Colleges</option><option>Real Estate</option>
+          <option>Corporate Offices</option><option>Hotels</option>
+          <option>Restaurant</option><option>Hospitals & Clinics</option><option>Industries</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Display Order</label>
+        <input type="number" id="ctOrder" placeholder="1" min="1" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tour Name (short — shown on card)</label>
+      <input type="text" id="ctName" placeholder="IIT Gandhinagar" />
+    </div>
+    <div class="form-group">
+      <label>CloudPano Tour ID</label>
+      <input type="text" id="ctCpId" placeholder="_ZNIYdF5RI" />
+      <small>CloudPano dashboard → Your tour → Share → ID copy karo (e.g. _ZNIYdF5RI)</small>
+    </div>
+    <div class="alert-box success" style="margin-top:4px;">
+      <span>✅</span>
+      <div>Tour automatically live hoga: <code>https://app.cloudpano.com/tours/[YOUR-ID]</code></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('customTourModal')">Cancel</button>
+      <button class="btn-save" onclick="saveCustomTour()">Save Tour</button>
+    </div>
+  </div>
+</div>
+
+<!-- Industry Modal -->
+<div class="modal-overlay" id="industryModal">
+  <div class="modal">
+    <div class="modal-title">
+      <div class="modal-title-icon">🏢</div>
+      <div><h3 id="industryModalTitle">Add Industry</h3><p>Industries section me nayi category add karo</p></div>
+    </div>
+    <input type="hidden" id="industryEditId" />
+    <div class="form-row">
+      <div class="form-group">
+        <label>Emoji Icon</label>
+        <input type="text" id="iIcon" placeholder="🍽️" />
+      </div>
+      <div class="form-group">
+        <label>Display Order</label>
+        <input type="number" id="iOrder" placeholder="1" min="1" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="iTitle" placeholder="Restaurants" />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input type="text" id="iDesc" placeholder="Show seating, ambience & interiors to increase bookings." />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('industryModal')">Cancel</button>
+      <button class="btn-save" onclick="saveIndustry()">Save Industry</button>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonial Modal -->
+<div class="modal-overlay" id="testimonialModal">
+  <div class="modal">
+    <div class="modal-title">
+      <div class="modal-title-icon">💬</div>
+      <div><h3 id="testimonialModalTitle">Add Testimonial</h3><p>Client review add karo</p></div>
+    </div>
+    <input type="hidden" id="testiEditId" />
+    <div class="form-row">
+      <div class="form-group">
+        <label>Client Name</label>
+        <input type="text" id="testiName" placeholder="Restaurant Owner" />
+      </div>
+      <div class="form-group">
+        <label>Business / Location</label>
+        <input type="text" id="testiBiz" placeholder="Fine Dining, Rajkot" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Star Rating</label>
+        <select id="testiStars">
+          <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+          <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
+          <option value="3">⭐⭐⭐ (3 Stars)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Display Order</label>
+        <input type="number" id="testiOrder" placeholder="1" min="1" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Review Quote</label>
+      <textarea id="testiQuote" rows="4" placeholder="After adding a virtual tour, our walk-ins increased noticeably..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Industry Icon (Emoji)</label>
+      <input type="text" id="testiIcon" placeholder="🍽️" />
+      <small>Card avatar me dikhega</small>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('testimonialModal')">Cancel</button>
+      <button class="btn-save" onclick="saveTestimonial()">Save Testimonial</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ Modal -->
+<div class="modal-overlay" id="faqModal">
+  <div class="modal">
+    <div class="modal-title">
+      <div class="modal-title-icon">❓</div>
+      <div><h3 id="faqModalTitle">Add FAQ</h3><p>Question & answer add karo</p></div>
+    </div>
+    <input type="hidden" id="faqEditId" />
+    <div class="form-group">
+      <label>Question</label>
+      <input type="text" id="faqQuestion" placeholder="What is a Google 360 virtual tour?" />
+    </div>
+    <div class="form-group">
+      <label>Answer</label>
+      <textarea id="faqAnswer" rows="4" placeholder="It is an interactive virtual walkthrough..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tag (optional)</label>
+        <select id="faqTag">
+          <option value="">No Tag</option>
+          <option value="Customized Tour">⭐ Customized Tour</option>
+          <option value="Pricing">💰 Pricing</option>
+          <option value="Technical">⚙️ Technical</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Display Order</label>
+        <input type="number" id="faqOrder" placeholder="1" min="1" />
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('faqModal')">Cancel</button>
+      <button class="btn-save" onclick="saveFaq()">Save FAQ</button>
+    </div>
+  </div>
+</div>
+
+<!-- How It Works Modal -->
+<div class="modal-overlay" id="howItWorksModal">
+  <div class="modal">
+    <div class="modal-title">
+      <div class="modal-title-icon">⚙️</div>
+      <div><h3 id="howItWorksModalTitle">Add Step</h3><p>How It Works section me step add karo</p></div>
+    </div>
+    <input type="hidden" id="howEditId" />
+    <div class="form-row">
+      <div class="form-group">
+        <label>Step Icon (Emoji)</label>
+        <input type="text" id="howIcon" placeholder="📞" />
+      </div>
+      <div class="form-group">
+        <label>Step Number / Order</label>
+        <input type="number" id="howOrder" placeholder="1" min="1" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Step Title</label>
+      <input type="text" id="howTitle" placeholder="Contact Us" />
+    </div>
+    <div class="form-group">
+      <label>Step Description</label>
+      <textarea id="howDesc" rows="3" placeholder="Share your requirements and preferred shoot date..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Step Outcome (shown as tag)</label>
+      <input type="text" id="howOutcome" placeholder="→ Get expert consultation" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('howItWorksModal')">Cancel</button>
+      <button class="btn-save" onclick="saveHowItWorks()">Save Step</button>
+    </div>
+  </div>
+</div>
+
+<!-- Real Estate Tour Modal -->
+<div class="modal-overlay" id="realEstateModal">
+  <div class="modal">
+    <div class="modal-title">
+      <div class="modal-title-icon">🏠</div>
+      <div><h3 id="realEstateModalTitle">Add Property Tour</h3><p>Real Estate portfolio me property tour add karo</p></div>
+    </div>
+    <input type="hidden" id="reEditId" />
+    <div class="form-group">
+      <label>Property Name</label>
+      <input type="text" id="reName" placeholder="Amara By Pacifica" />
+    </div>
+    <div class="form-group">
+      <label>Subtitle / Project Type</label>
+      <input type="text" id="reSubtitle" placeholder="Luxury Residential Project · 360° Virtual Tour" />
+    </div>
+    <div class="form-group">
+      <label>CloudPano Tour ID</label>
+      <input type="text" id="reCpId" placeholder="x5e8PxVc87" />
+      <small>CloudPano dashboard → Your tour → Share → ID copy karo (e.g. x5e8PxVc87)</small>
+    </div>
+    <div class="alert-box success" style="margin-top:4px;">
+      <span>✅</span>
+      <div>Tour automatically load hoga: <code>https://app.cloudpano.com/tours/[YOUR-ID]?autoLoad=1</code></div>
+    </div>
+    <div class="form-group">
+      <label>Display Order</label>
+      <input type="number" id="reOrder" placeholder="1" min="1" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('realEstateModal')">Cancel</button>
+      <button class="btn-save" onclick="saveRealEstate()">Save Property Tour</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════ FIREBASE ══════════ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, setDoc, getDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBPMZ-qKpRCdtV4r8n6w5c065T951kMEBI",
+  authDomain: "soham360-44266.firebaseapp.com",
+  projectId: "soham360-44266",
+  storageBucket: "soham360-44266.firebasestorage.app",
+  messagingSenderId: "1089125934834",
+  appId: "1:1089125934834:web:978b2bf6297b5c18cd926b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Expose to window
+Object.assign(window, { _db:db, _collection:collection, _getDocs:getDocs, _addDoc:addDoc,
+  _updateDoc:updateDoc, _deleteDoc:deleteDoc, _setDoc:setDoc, _getDoc:getDoc,
+  _doc:doc, _query:query, _orderBy:orderBy, _signOut:signOut });
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    document.getElementById('topbarUser').textContent = user.email;
+    document.getElementById('topbarAvatar').textContent = user.email[0].toUpperCase();
+    loadAll();
+  } else {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('adminPanel').style.display = 'none';
+  }
+});
+
+window.handleLogin = async function() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value;
+  const err = document.getElementById('loginError');
+  err.textContent = '';
+  if (!email || !pass) { err.textContent = 'Please enter email and password.'; return; }
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    err.textContent = 'Invalid email or password. Please try again.';
+  }
+};
+
+window.handleLogout = async function() { await signOut(auth); };
+
+async function loadAll() {
+  await Promise.all([
+    loadGalleryData(), loadCustomToursData(), loadRealEstateData(), loadIndustriesData(),
+    loadTestimonialsData(), loadFaqData(), loadHowItWorksData(),
+    loadHeroData(), loadContactData(), loadSEOData(), loadPricingData()
+  ]);
+}
+
+// ══ GOOGLE 360 TOURS ══
+window._galleryData = [];
+async function loadGalleryData() {
+  try {
+    const q = query(collection(db,"gallery"), orderBy("order"));
+    const snap = await getDocs(q);
+    window._galleryData = [];
+    snap.forEach(d => window._galleryData.push({id:d.id,...d.data()}));
+    renderGalleryTable();
+    document.getElementById('statGallery').textContent = window._galleryData.length;
+  } catch(e) { showToast('Gallery load error','error'); }
+}
+function renderGalleryTable() {
+  const tbody = document.getElementById('galleryTableBody');
+  if (!window._galleryData.length) {
+    tbody.innerHTML = emptyState('No tours yet. Click "+ Add Tour" to begin.'); return;
+  }
+  tbody.innerHTML = window._galleryData.map(item => `
+    <tr>
+      <td><div class="thumb-g thumb-svg"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div></td>
+      <td><span class="type-badge google">${item.cat||'—'}</span></td>
+      <td><strong>${item.name}</strong></td>
+      <td><span style="font-weight:600;">${item.order}</span></td>
+      <td><div class="action-btns">
+        <button class="btn-edit" onclick="editGallery('${item.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteGallery('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+window.openGalleryModal = function() {
+  document.getElementById('galleryModalTitle').textContent = 'Add Google 360 Tour';
+  document.getElementById('galleryEditId').value = '';
+  ['gCat','gName','gUrl'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('gOrder').value = window._galleryData.length + 1;
+  document.getElementById('galleryModal').classList.add('open');
+};
+window.editGallery = function(id) {
+  const item = window._galleryData.find(p => p.id===id); if(!item) return;
+  document.getElementById('galleryModalTitle').textContent = 'Edit Google 360 Tour';
+  document.getElementById('galleryEditId').value = id;
+  document.getElementById('gCat').value = item.cat||'';
+  document.getElementById('gName').value = item.name;
+  document.getElementById('gUrl').value = item.url;
+  document.getElementById('gOrder').value = item.order;
+  document.getElementById('galleryModal').classList.add('open');
+};
+window.saveGallery = async function() {
+  const id = document.getElementById('galleryEditId').value;
+  const data = {
+    cat: document.getElementById('gCat').value.trim(),
+    name: document.getElementById('gName').value.trim(),
+    url: document.getElementById('gUrl').value.trim(),
+    order: parseInt(document.getElementById('gOrder').value)||1
+  };
+  if (!data.name||!data.url) { showToast('Name aur URL required hai','error'); return; }
+  try {
+    if(id) { await updateDoc(doc(db,"gallery",id),data); showToast('Tour updated! ✅','success'); }
+    else { await addDoc(collection(db,"gallery"),data); showToast('Tour added! ✅','success'); }
+    closeModal('galleryModal'); await loadGalleryData();
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+window.deleteGallery = async function(id) {
+  if(!confirm('Ye tour delete karna chahte ho?')) return;
+  try { await deleteDoc(doc(db,"gallery",id)); showToast('Tour deleted!','success'); await loadGalleryData(); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ CUSTOMIZED TOURS ══
+window._customToursData = [];
+async function loadCustomToursData() {
+  try {
+    const q = query(collection(db,"customTours"), orderBy("order"));
+    const snap = await getDocs(q);
+    window._customToursData = [];
+    snap.forEach(d => window._customToursData.push({id:d.id,...d.data()}));
+    renderCustomToursTable();
+    document.getElementById('statCustomTours').textContent = window._customToursData.length;
+  } catch(e) {}
+}
+function renderCustomToursTable() {
+  const tbody = document.getElementById('customToursTableBody');
+  if (!window._customToursData.length) {
+    tbody.innerHTML = emptyState('No customized tours yet. Click "+ Add Customized Tour".'); return;
+  }
+  tbody.innerHTML = window._customToursData.map(item => `
+    <tr>
+      <td><div class="thumb-cp thumb-svg"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></td>
+      <td><span class="type-badge premium">${item.cat||'—'}</span></td>
+      <td><strong>${item.name}</strong></td>
+      <td><code style="background:#f0f3f7;padding:3px 8px;border-radius:6px;font-size:12px;">${item.cpId}</code></td>
+      <td><span style="font-weight:600;">${item.order}</span></td>
+      <td><div class="action-btns">
+        <button class="btn-preview" onclick="window.open('https://app.cloudpano.com/tours/${item.cpId}','_blank')">Preview</button>
+        <button class="btn-edit" onclick="editCustomTour('${item.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteCustomTour('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+window.openCustomTourModal = function() {
+  document.getElementById('customTourModalTitle').textContent = 'Add Customized Tour';
+  document.getElementById('customTourEditId').value = '';
+  ['ctCat','ctName','ctCpId'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ctOrder').value = window._customToursData.length + 1;
+  document.getElementById('customTourModal').classList.add('open');
+};
+window.editCustomTour = function(id) {
+  const item = window._customToursData.find(p => p.id===id); if(!item) return;
+  document.getElementById('customTourModalTitle').textContent = 'Edit Customized Tour';
+  document.getElementById('customTourEditId').value = id;
+  document.getElementById('ctCat').value = item.cat||'';
+  document.getElementById('ctName').value = item.name;
+  document.getElementById('ctCpId').value = item.cpId;
+  document.getElementById('ctOrder').value = item.order;
+  document.getElementById('customTourModal').classList.add('open');
+};
+window.saveCustomTour = async function() {
+  const id = document.getElementById('customTourEditId').value;
+  const data = {
+    cat: document.getElementById('ctCat').value.trim(),
+    name: document.getElementById('ctName').value.trim(),
+    cpId: document.getElementById('ctCpId').value.trim(),
+    order: parseInt(document.getElementById('ctOrder').value)||1
+  };
+  if (!data.name||!data.cpId) { showToast('Name aur CloudPano ID required hai','error'); return; }
+  try {
+    if(id) { await updateDoc(doc(db,"customTours",id),data); showToast('Tour updated! ✅','success'); }
+    else { await addDoc(collection(db,"customTours"),data); showToast('Tour added! ✅','success'); }
+    closeModal('customTourModal'); await loadCustomToursData();
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+window.deleteCustomTour = async function(id) {
+  if(!confirm('Ye customized tour delete karna chahte ho?')) return;
+  try { await deleteDoc(doc(db,"customTours",id)); showToast('Tour deleted!','success'); await loadCustomToursData(); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ REAL ESTATE TOURS ══
+window._realEstateData = [];
+async function loadRealEstateData() {
+  try {
+    const q = query(collection(db,"realEstateTours"), orderBy("order"));
+    const snap = await getDocs(q);
+    window._realEstateData = [];
+    snap.forEach(d => window._realEstateData.push({id:d.id,...d.data()}));
+    renderRealEstateTable();
+    document.getElementById('statRealEstate').textContent = window._realEstateData.length;
+  } catch(e) {}
+}
+function renderRealEstateTable() {
+  const tbody = document.getElementById('realEstateTableBody');
+  if (!window._realEstateData.length) {
+    tbody.innerHTML = emptyState('No property tours yet. Click "+ Add Property Tour" to begin.'); return;
+  }
+  tbody.innerHTML = window._realEstateData.map(item => `
+    <tr>
+      <td><div class="thumb-cp thumb-svg" style="background:linear-gradient(135deg,#0a1620,#1a3a50);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div></td>
+      <td><strong>${item.name}</strong></td>
+      <td style="color:var(--text2);font-size:12px;">${item.subtitle||'—'}</td>
+      <td><code style="background:#f0f3f7;padding:3px 8px;border-radius:6px;font-size:12px;">${item.cpId}</code></td>
+      <td><span style="font-weight:600;">${item.order}</span></td>
+      <td><div class="action-btns">
+        <button class="btn-preview" onclick="window.open('https://app.cloudpano.com/tours/${item.cpId}','_blank')">Preview</button>
+        <button class="btn-edit" onclick="editRealEstate('${item.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteRealEstate('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+window.openRealEstateModal = function() {
+  document.getElementById('realEstateModalTitle').textContent = 'Add Property Tour';
+  document.getElementById('reEditId').value = '';
+  ['reName','reSubtitle','reCpId'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('reOrder').value = window._realEstateData.length + 1;
+  document.getElementById('realEstateModal').classList.add('open');
+};
+window.editRealEstate = function(id) {
+  const item = window._realEstateData.find(p => p.id===id); if(!item) return;
+  document.getElementById('realEstateModalTitle').textContent = 'Edit Property Tour';
+  document.getElementById('reEditId').value = id;
+  document.getElementById('reName').value = item.name;
+  document.getElementById('reSubtitle').value = item.subtitle||'';
+  document.getElementById('reCpId').value = item.cpId;
+  document.getElementById('reOrder').value = item.order;
+  document.getElementById('realEstateModal').classList.add('open');
+};
+window.saveRealEstate = async function() {
+  const id = document.getElementById('reEditId').value;
+  const data = {
+    name: document.getElementById('reName').value.trim(),
+    subtitle: document.getElementById('reSubtitle').value.trim(),
+    cpId: document.getElementById('reCpId').value.trim(),
+    order: parseInt(document.getElementById('reOrder').value)||1
+  };
+  if (!data.name||!data.cpId) { showToast('Property name aur CloudPano ID required hai','error'); return; }
+  try {
+    if(id) { await updateDoc(doc(db,"realEstateTours",id),data); showToast('Property tour updated! ✅','success'); }
+    else { await addDoc(collection(db,"realEstateTours"),data); showToast('Property tour added! ✅','success'); }
+    closeModal('realEstateModal'); await loadRealEstateData();
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+window.deleteRealEstate = async function(id) {
+  if(!confirm('Ye property tour delete karna chahte ho?')) return;
+  try { await deleteDoc(doc(db,"realEstateTours",id)); showToast('Deleted!','success'); await loadRealEstateData(); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ INDUSTRIES ══
+window._industriesData = [];
+async function loadIndustriesData() {
+  try {
+    const q = query(collection(db,"industries"), orderBy("order"));
+    const snap = await getDocs(q);
+    window._industriesData = [];
+    snap.forEach(d => window._industriesData.push({id:d.id,...d.data()}));
+    renderIndustriesTable();
+    document.getElementById('statIndustries').textContent = window._industriesData.length;
+  } catch(e) {}
+}
+function renderIndustriesTable() {
+  const tbody = document.getElementById('industriesTableBody');
+  if (!window._industriesData.length) { tbody.innerHTML = emptyState('No industries yet.'); return; }
+  tbody.innerHTML = window._industriesData.map(item => `
+    <tr>
+      <td style="font-size:24px;">${item.icon||'🏢'}</td>
+      <td><strong>${item.title}</strong></td>
+      <td style="color:var(--text2);max-width:220px;">${item.description}</td>
+      <td>${item.order}</td>
+      <td><div class="action-btns">
+        <button class="btn-edit" onclick="editIndustry('${item.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteIndustry('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+window.openIndustryModal = function() {
+  document.getElementById('industryModalTitle').textContent = 'Add Industry';
+  document.getElementById('industryEditId').value = '';
+  ['iIcon','iTitle','iDesc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('iOrder').value = window._industriesData.length + 1;
+  document.getElementById('industryModal').classList.add('open');
+};
+window.editIndustry = function(id) {
+  const item = window._industriesData.find(p=>p.id===id); if(!item) return;
+  document.getElementById('industryModalTitle').textContent = 'Edit Industry';
+  document.getElementById('industryEditId').value = id;
+  document.getElementById('iIcon').value = item.icon||'';
+  document.getElementById('iTitle').value = item.title;
+  document.getElementById('iDesc').value = item.description;
+  document.getElementById('iOrder').value = item.order;
+  document.getElementById('industryModal').classList.add('open');
+};
+window.saveIndustry = async function() {
+  const id = document.getElementById('industryEditId').value;
+  const data = {
+    icon: document.getElementById('iIcon').value.trim(),
+    title: document.getElementById('iTitle').value.trim(),
+    description: document.getElementById('iDesc').value.trim(),
+    order: parseInt(document.getElementById('iOrder').value)||1
+  };
+  if (!data.title) { showToast('Title required hai','error'); return; }
+  try {
+    if(id) { await updateDoc(doc(db,"industries",id),data); showToast('Industry updated! ✅','success'); }
+    else { await addDoc(collection(db,"industries"),data); showToast('Industry added! ✅','success'); }
+    closeModal('industryModal'); await loadIndustriesData();
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+window.deleteIndustry = async function(id) {
+  if(!confirm('Ye industry delete karna chahte ho?')) return;
+  try { await deleteDoc(doc(db,"industries",id)); showToast('Deleted!','success'); await loadIndustriesData(); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ TESTIMONIALS ══
+window._testimonialsData = [];
+async function loadTestimonialsData() {
+  try {
+    const q = query(collection(db,"testimonials"), orderBy("order"));
+    const snap = await getDocs(q);
+    window._testimonialsData = [];
+    snap.forEach(d => window._testimonialsData.push({id:d.id,...d.data()}));
+    renderTestimonialsTable();
+    document.getElementById('statTestimonials').textContent = window._testimonialsData.length;
+  } catch(e) {}
+}
+function renderTestimonialsTable() {
+  const tbody = document.getElementById('testimonialsTableBody');
+  if (!window._testimonialsData.length) { tbody.innerHTML = emptyState('No testimonials yet.'); return; }
+  tbody.innerHTML = window._testimonialsData.map(item => `
+    <tr>
+      <td>${'★'.repeat(item.stars||5)}</td>
+      <td><strong>${item.name}</strong></td>
+      <td style="color:var(--text2);">${item.business}</td>
+      <td style="color:var(--text2);max-width:200px;font-style:italic;">"${(item.quote||'').substring(0,60)}..."</td>
+      <td>${item.order}</td>
+      <td><div class="action-btns">
+        <button class="btn-edit" onclick="editTestimonial('${item.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteTestimonial('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+window.openTestimonialModal = function() {
+  document.getElementById('testimonialModalTitle').textContent = 'Add Testimonial';
+  document.getElementById('testiEditId').value = '';
+  ['testiName','testiBiz','testiQuote','testiIcon'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('testiStars').value = '5';
+  document.getElementById('testiOrder').value = window._testimonialsData.length + 1;
+  document.getElementById('testimonialModal').classList.add('open');
+};
+window.editTestimonial = function(id) {
+  const item = window._testimonialsData.find(p=>p.id===id); if(!item) return;
+  document.getElementById('testimonialModalTitle').textContent = 'Edit Testimonial';
+  document.getElementById('testiEditId').value = id;
+  document.getElementById('testiName').value = item.name;
+  document.getElementById('testiBiz').value = item.business;
+  document.getElementById('testiQuote').value = item.quote;
+  document.getElementById('testiIcon').value = item.icon||'👤';
+  document.getElementById('testiStars').value = item.stars||5;
+  document.getElementById('testiOrder').value = item.order;
+  document.getElementById('testimonialModal').classList.add('open');
+};
+window.saveTestimonial = async function() {
+  const id = document.getElementById('testiEditId').value;
+  const data = {
+    name: document.getElementById('testiName').value.trim(),
+    business: document.getElementById('testiBiz').value.trim(),
+    quote: document.getElementById('testiQuote').value.trim(),
+    icon: document.getElementById('testiIcon').value.trim()||'👤',
+    stars: parseInt(document.getElementById('testiStars').value)||5,
+    order: parseInt(document.getElementById('testiOrder').value)||1
+  };
+  if (!data.name||!data.quote) { showToast('Name aur Quote required hai','error'); return; }
+  try {
+    if(id) { await updateDoc(doc(db,"testimonials",id),data); showToast('Testimonial updated! ✅','success'); }
+    else { await addDoc(collection(db,"testimonials"),data); showToast('Testimonial added! ✅','success'); }
+    closeModal('testimonialModal'); await loadTestimonialsData();
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+window.deleteTestimonial = async function(id) {
+  if(!confirm('Ye testimonial delete karna chahte ho?')) return;
+  try { await deleteDoc(doc(db,"testimonials",id)); showToast('Deleted!','success'); await loadTestimonialsData(); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ FAQ ══
+window._faqData = [];
+async function loadFaqData() {
+  try {
+    const q = query(collection(db,"faq"), orderBy("order"));
+    const snap = await getDocs(q);
+    window._faqData = [];
+    snap.forEach(d => window._faqData.push({id:d.id,...d.data()}));
+    renderFaqTable();
+    document.getElementById('statFaq').textContent = window._faqData.length;
+  } catch(e) {}
+}
+function renderFaqTable() {
+  const tbody = document.getElementById('faqTableBody');
+  if (!window._faqData.length) { tbody.innerHTML = emptyState('No FAQ items yet.'); return; }
+  tbody.innerHTML = window._faqData.map(item => `
+    <tr>
+      <td style="max-width:220px;"><strong>${item.question}</strong></td>
+      <td style="color:var(--text2);max-width:200px;">${(item.answer||'').substring(0,70)}...</td>
+      <td>${item.tag ? `<span class="type-badge standard">${item.tag}</span>` : '—'}</td>
+      <td>${item.order}</td>
+      <td><div class="action-btns">
+        <button class="btn-edit" onclick="editFaq('${item.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteFaq('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+window.openFaqModal = function() {
+  document.getElementById('faqModalTitle').textContent = 'Add FAQ';
+  document.getElementById('faqEditId').value = '';
+  ['faqQuestion','faqAnswer'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('faqTag').value = '';
+  document.getElementById('faqOrder').value = window._faqData.length + 1;
+  document.getElementById('faqModal').classList.add('open');
+};
+window.editFaq = function(id) {
+  const item = window._faqData.find(p=>p.id===id); if(!item) return;
+  document.getElementById('faqModalTitle').textContent = 'Edit FAQ';
+  document.getElementById('faqEditId').value = id;
+  document.getElementById('faqQuestion').value = item.question;
+  document.getElementById('faqAnswer').value = item.answer;
+  document.getElementById('faqTag').value = item.tag||'';
+  document.getElementById('faqOrder').value = item.order;
+  document.getElementById('faqModal').classList.add('open');
+};
+window.saveFaq = async function() {
+  const id = document.getElementById('faqEditId').value;
+  const data = {
+    question: document.getElementById('faqQuestion').value.trim(),
+    answer: document.getElementById('faqAnswer').value.trim(),
+    tag: document.getElementById('faqTag').value.trim(),
+    order: parseInt(document.getElementById('faqOrder').value)||1
+  };
+  if (!data.question||!data.answer) { showToast('Question aur Answer required hai','error'); return; }
+  try {
+    if(id) { await updateDoc(doc(db,"faq",id),data); showToast('FAQ updated! ✅','success'); }
+    else { await addDoc(collection(db,"faq"),data); showToast('FAQ added! ✅','success'); }
+    closeModal('faqModal'); await loadFaqData();
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+window.deleteFaq = async function(id) {
+  if(!confirm('Ye FAQ delete karna chahte ho?')) return;
+  try { await deleteDoc(doc(db,"faq",id)); showToast('Deleted!','success'); await loadFaqData(); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ HOW IT WORKS ══
+window._howItWorksData = [];
+async function loadHowItWorksData() {
+  try {
+    const q = query(collection(db,"howItWorks"), orderBy("order"));
+    const snap = await getDocs(q);
+    window._howItWorksData = [];
+    snap.forEach(d => window._howItWorksData.push({id:d.id,...d.data()}));
+    renderHowItWorksTable();
+    document.getElementById('statHowItWorks') && (document.getElementById('statHowItWorks').textContent = window._howItWorksData.length);
+  } catch(e) {}
+}
+function renderHowItWorksTable() {
+  const tbody = document.getElementById('howItWorksTableBody');
+  if (!window._howItWorksData.length) { tbody.innerHTML = emptyState('No steps yet.'); return; }
+  tbody.innerHTML = window._howItWorksData.map(item => `
+    <tr>
+      <td><strong style="color:var(--dark);">#${item.order}</strong></td>
+      <td style="font-size:22px;">${item.icon}</td>
+      <td><strong>${item.title}</strong></td>
+      <td style="color:var(--text2);max-width:200px;">${(item.description||'').substring(0,60)}...</td>
+      <td style="color:var(--amber);font-size:12px;font-weight:600;">${item.outcome||'—'}</td>
+      <td><div class="action-btns">
+        <button class="btn-edit" onclick="editHowItWorks('${item.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteHowItWorks('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+window.openHowItWorksModal = function() {
+  document.getElementById('howItWorksModalTitle').textContent = 'Add Step';
+  document.getElementById('howEditId').value = '';
+  ['howIcon','howTitle','howDesc','howOutcome'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('howOrder').value = window._howItWorksData.length + 1;
+  document.getElementById('howItWorksModal').classList.add('open');
+};
+window.editHowItWorks = function(id) {
+  const item = window._howItWorksData.find(p=>p.id===id); if(!item) return;
+  document.getElementById('howItWorksModalTitle').textContent = 'Edit Step';
+  document.getElementById('howEditId').value = id;
+  document.getElementById('howIcon').value = item.icon;
+  document.getElementById('howTitle').value = item.title;
+  document.getElementById('howDesc').value = item.description;
+  document.getElementById('howOutcome').value = item.outcome||'';
+  document.getElementById('howOrder').value = item.order;
+  document.getElementById('howItWorksModal').classList.add('open');
+};
+window.saveHowItWorks = async function() {
+  const id = document.getElementById('howEditId').value;
+  const data = {
+    icon: document.getElementById('howIcon').value.trim(),
+    title: document.getElementById('howTitle').value.trim(),
+    description: document.getElementById('howDesc').value.trim(),
+    outcome: document.getElementById('howOutcome').value.trim(),
+    order: parseInt(document.getElementById('howOrder').value)||1
+  };
+  if (!data.title) { showToast('Title required hai','error'); return; }
+  try {
+    if(id) { await updateDoc(doc(db,"howItWorks",id),data); showToast('Step updated! ✅','success'); }
+    else { await addDoc(collection(db,"howItWorks"),data); showToast('Step added! ✅','success'); }
+    closeModal('howItWorksModal'); await loadHowItWorksData();
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+window.deleteHowItWorks = async function(id) {
+  if(!confirm('Ye step delete karna chahte ho?')) return;
+  try { await deleteDoc(doc(db,"howItWorks",id)); showToast('Deleted!','success'); await loadHowItWorksData(); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ PRICING ══
+async function loadPricingData() {
+  try {
+    const snap1 = await getDoc(doc(db,"siteSettings","pricing1"));
+    const snap2 = await getDoc(doc(db,"siteSettings","pricing2"));
+    if (snap1.exists()) {
+      const d = snap1.data();
+      document.getElementById('pkg1Name').value = d.name||'';
+      document.getElementById('pkg1Price').value = d.price||'';
+      document.getElementById('pkg1Badge').value = d.badge||'';
+      document.getElementById('pkg1Desc').value = d.desc||'';
+      document.getElementById('pkg1Features').value = (d.features||[]).join('\n');
+      document.getElementById('pkg1Cta').value = d.cta||'';
+    }
+    if (snap2.exists()) {
+      const d = snap2.data();
+      document.getElementById('pkg2Name').value = d.name||'';
+      document.getElementById('pkg2Price').value = d.price||'';
+      document.getElementById('pkg2Badge').value = d.badge||'';
+      document.getElementById('pkg2Desc').value = d.desc||'';
+      document.getElementById('pkg2Features').value = (d.features||[]).join('\n');
+      document.getElementById('pkg2Cta').value = d.cta||'';
+    }
+  } catch(e) {}
+}
+window.savePricing = async function(pkg) {
+  const n = pkg;
+  const data = {
+    name: document.getElementById(`pkg${n}Name`).value.trim(),
+    price: parseInt(document.getElementById(`pkg${n}Price`).value)||0,
+    badge: document.getElementById(`pkg${n}Badge`).value.trim(),
+    desc: document.getElementById(`pkg${n}Desc`).value.trim(),
+    features: document.getElementById(`pkg${n}Features`).value.split('\n').map(f=>f.trim()).filter(Boolean),
+    cta: document.getElementById(`pkg${n}Cta`).value.trim()
+  };
+  try {
+    await setDoc(doc(db,"siteSettings",`pricing${n}`), data);
+    showToast(`Package ${n} saved! ✅`,'success');
+  } catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ HERO ══
+async function loadHeroData() {
+  try {
+    const snap = await getDoc(doc(db,"siteSettings","hero"));
+    if (snap.exists()) {
+      const d = snap.data();
+      document.getElementById('heroHeading1').value = d.heading1||'';
+      document.getElementById('heroHighlight').value = d.highlight||'';
+      document.getElementById('heroSubtext').value = d.subtext||'';
+      document.getElementById('heroCta').value = d.cta||'';
+      document.getElementById('heroTrustLine').value = d.trustLine||'';
+      document.getElementById('heroBadge').value = d.badge||'';
+      document.getElementById('heroFeatures').value = (d.features||[]).join('\n');
+    }
+  } catch(e) {}
+}
+window.saveHero = async function() {
+  const data = {
+    heading1: document.getElementById('heroHeading1').value.trim(),
+    highlight: document.getElementById('heroHighlight').value.trim(),
+    subtext: document.getElementById('heroSubtext').value.trim(),
+    cta: document.getElementById('heroCta').value.trim(),
+    trustLine: document.getElementById('heroTrustLine').value.trim(),
+    badge: document.getElementById('heroBadge').value.trim(),
+    features: document.getElementById('heroFeatures').value.split('\n').map(f=>f.trim()).filter(Boolean)
+  };
+  try { await setDoc(doc(db,"siteSettings","hero"),data); showToast('Hero section saved! ✅','success'); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ CONTACT ══
+async function loadContactData() {
+  try {
+    const snap = await getDoc(doc(db,"siteSettings","contact"));
+    if (snap.exists()) {
+      const d = snap.data();
+      document.getElementById('contactName').value = d.name||'';
+      document.getElementById('contactRole').value = d.role||'';
+      document.getElementById('contactPhone').value = d.phone||'';
+      document.getElementById('contactWhatsapp').value = d.whatsapp||'';
+      document.getElementById('contactHeading').value = d.heading||'';
+      document.getElementById('contactTagline').value = d.tagline||'';
+      document.getElementById('contactMicrocopy').value = d.microcopy||'';
+    }
+  } catch(e) {}
+}
+window.saveContact = async function() {
+  const data = {
+    name: document.getElementById('contactName').value.trim(),
+    role: document.getElementById('contactRole').value.trim(),
+    phone: document.getElementById('contactPhone').value.trim(),
+    whatsapp: document.getElementById('contactWhatsapp').value.trim(),
+    heading: document.getElementById('contactHeading').value.trim(),
+    tagline: document.getElementById('contactTagline').value.trim(),
+    microcopy: document.getElementById('contactMicrocopy').value.trim()
+  };
+  try { await setDoc(doc(db,"siteSettings","contact"),data); showToast('Contact info saved! ✅','success'); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+
+// ══ SEO ══
+async function loadSEOData() {
+  try {
+    const snap = await getDoc(doc(db,"siteSettings","seo"));
+    if (snap.exists()) {
+      const d = snap.data();
+      document.getElementById('seoTitle').value = d.title||'';
+      document.getElementById('seoDesc').value = d.description||'';
+      document.getElementById('seoKeywords').value = d.keywords||'';
+      document.getElementById('seoSlug').value = d.slug||'';
+      updateCharCount(document.getElementById('seoTitle'),'seoTitleCount',60);
+      updateCharCount(document.getElementById('seoDesc'),'seoDescCount',160);
+    }
+  } catch(e) {}
+}
+window.saveSEO = async function() {
+  const data = {
+    title: document.getElementById('seoTitle').value.trim(),
+    description: document.getElementById('seoDesc').value.trim(),
+    keywords: document.getElementById('seoKeywords').value.trim(),
+    slug: document.getElementById('seoSlug').value.trim()
+  };
+  try { await setDoc(doc(db,"siteSettings","seo"),data); showToast('SEO settings saved! ✅','success'); }
+  catch(e) { showToast('Error: '+e.message,'error'); }
+};
+</script>
+
+<script>
+function showPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-'+name);
+  if(page) page.classList.add('active');
+  document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+  // find the right sidebar link
+  document.querySelectorAll('.sidebar-menu a').forEach(a => {
+    if(a.getAttribute('onclick') && a.getAttribute('onclick').includes("'"+name+"'")) a.classList.add('active');
+  });
+  return false;
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  const icons = {success:'✅ ', error:'❌ ', '':'ℹ️ '};
+  t.innerHTML = (icons[type]||'') + msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className='toast', 3500);
+}
+
+function emptyState(msg) {
+  return `<tr><td colspan="10">
+    <div class="empty-state">
+      <div class="empty-state-icon">📭</div>
+      <h4>Nothing here yet</h4>
+      <p>${msg}</p>
+    </div>
+  </td></tr>`;
+}
+
+function filterTable(query, tbodyId) {
+  const tbody = document.getElementById(tbodyId);
+  const rows = tbody.querySelectorAll('tr');
+  const q = query.toLowerCase();
+  rows.forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function updateCharCount(input, countId, max) {
+  const len = input.value.length;
+  const el = document.getElementById(countId);
+  if(!el) return;
+  el.textContent = len + ' / ' + max;
+  el.className = 'char-count' + (len > max ? ' over' : len > max*0.85 ? ' warn' : '');
+}
+
+// Close modals on overlay click
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if(e.target === this) this.classList.remove('open');
+    });
+  });
+});
+</script>
+</body>
+</html>

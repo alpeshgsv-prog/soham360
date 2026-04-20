@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google 360 Virtual Tour Services | Get More Customers – Soham360</title>
+<meta name="description" content="Boost your business with Google 360 virtual tours. Increase trust, attract customers, and rank higher on Google. Book a free demo today. Serving Ahmedabad, Rajkot, Jamnagar, Surat, Bhavnagar & all Gujarat.">
+<meta name="keywords" content="Google 360 Virtual Tour, Customized 360 Virtual Tour, 360 Virtual Tour Services India, Google Street View photographer Gujarat, virtual tour for restaurants hotels, 360 virtual tour Ahmedabad, 360 virtual tour Rajkot, virtual tour service provider Gujarat">
+<link rel="stylesheet" href="css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"What is a Google 360 virtual tour?","acceptedAnswer":{"@type":"Answer","text":"It is an interactive walkthrough of your business integrated directly with Google Maps and your Google Business Profile."}},
+    {"@type":"Question","name":"How much does a virtual tour cost?","acceptedAnswer":{"@type":"Answer","text":"Google 360 Virtual Tour starts from Rs 5000. Customized 360 Virtual Tour starts from Rs 10000. Contact us for a free quote."}},
+    {"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"Typically within 7 days from the photoshoot to publishing on Google."}},
+    {"@type":"Question","name":"Does it help SEO?","acceptedAnswer":{"@type":"Answer","text":"Yes, virtual tours improve engagement and visibility on Google Maps and Search."}},
+    {"@type":"Question","name":"Can I use it on my website?","acceptedAnswer":{"@type":"Answer","text":"Yes, it can be embedded easily on any website."}},
+    {"@type":"Question","name":"Is it a one-time cost?","acceptedAnswer":{"@type":"Answer","text":"The standard Google 360 Virtual Tour is a one-time investment. The Customized 360 Virtual Tour has recurring charges for hosted interactive features."}},
+    {"@type":"Question","name":"What is a Customized 360 Virtual Tour?","acceptedAnswer":{"@type":"Answer","text":"A Customized 360 Virtual Tour adds smart navigation, custom branding, and interactive hotspots — clickable markers inside your tour that show text, images, videos, and links to visitors."}},
+    {"@type":"Question","name":"What are Interactive Hotspots?","acceptedAnswer":{"@type":"Answer","text":"Interactive Hotspots are clickable markers placed inside your virtual tour. When clicked they show text info, images, videos, or links — making your tour a fully engaging, informative experience."}}
+  ]
+}
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBPMZ-qKpRCdtV4r8n6w5c065T951kMEBI",
+    authDomain: "soham360-44266.firebaseapp.com",
+    projectId: "soham360-44266",
+    storageBucket: "soham360-44266.firebasestorage.app",
+    messagingSenderId: "1089125934834",
+    appId: "1:1089125934834:web:978b2bf6297b5c18cd926b"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  async function loadIndustries() {
+    try {
+      const q = query(collection(db, "industries"), orderBy("order"));
+      const snap = await getDocs(q);
+      const items = [];
+      snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+      if (items.length > 0) renderIndustries(items);
+    } catch(e) { console.log("Using default industries"); }
+  }
+  function renderIndustries(items) {
+    const container = document.getElementById('industriesGrid');
+    if (!container) return;
+    container.innerHTML = items.map(item => `
+      <div class="ind-card"><div class="ind-svg-wrap">${item.svg||''}</div><h3>${item.title}</h3><p>${item.description}</p></div>
+    `).join('');
+  }
+  window.addEventListener('DOMContentLoaded', () => { loadIndustries(); });
+</script>
+</head>
+<body>
+
+<!-- WHATSAPP FLOAT -->
+<div class="float-wa-only">
+  <a class="float-wa-btn" href="https://wa.me/918758685806" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="30" height="30" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#fff" d="M4.868 43.303l2.694-9.835a18.83 18.83 0 0 1-2.52-9.449C5.044 13.514 13.856 4.7 24.86 4.7c5.35.002 10.373 2.086 14.152 5.872a19.865 19.865 0 0 1 5.853 14.143c-.004 11.006-8.816 19.82-19.822 19.82a19.868 19.868 0 0 1-9.499-2.413L4.868 43.303z"/>
+      <path fill="#25D366" d="M24.86 7.7c-9.348 0-16.953 7.603-16.953 16.949a16.9 16.9 0 0 0 2.509 8.88l.39.619-1.657 6.047 6.205-1.629.599.356a16.9 16.9 0 0 0 8.615 2.356h.007c9.341 0 16.944-7.604 16.947-16.95A16.86 16.86 0 0 0 35.558 12.7 16.86 16.86 0 0 0 24.86 7.7z"/>
+      <path fill="#fff" fill-rule="evenodd" d="M19.268 16.045c-.355-.79-.729-.806-1.068-.82-.277-.013-.594-.012-.91-.012s-.83.124-1.265.62c-.435.495-1.661 1.622-1.661 3.956s1.7 4.59 1.937 4.907c.237.317 3.282 5.283 8.104 7.196 4.007 1.58 4.823 1.266 5.693 1.187.87-.079 2.807-1.147 3.202-2.255.395-1.108.395-2.057.277-2.255-.119-.198-.435-.317-.91-.554s-2.807-1.384-3.242-1.542c-.435-.158-.75-.237-1.066.238-.317.475-1.225 1.542-1.502 1.859-.277.317-.554.357-1.028.119-.475-.238-2.004-.738-3.82-2.358-1.41-1.258-2.364-2.814-2.641-3.289-.277-.475-.03-.731.208-.968.213-.213.475-.554.712-.831.238-.277.317-.475.475-.792.158-.317.079-.594-.04-.831-.118-.238-1.04-2.58-1.456-3.525z" clip-rule="evenodd"/>
+    </svg>
+  </a>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo" aria-label="Soham360 Home">
+    <span class="logo-text">Soham<span>360</span></span>
+  </a>
+  <div class="nav-menu">
+    <a class="nav-link active" href="index.html">Home</a>
+    <a class="nav-link" href="index.html#portfolio">Portfolio</a>
+    <a class="nav-link" href="realestate.html">🏠 Real Estate 360 Tour</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+  </div>
+  <button class="nav-burger" id="navBurger" aria-label="Open menu" onclick="toggleBurger()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <a class="nav-link" href="index.html" onclick="closeBurger()">🏠 Home</a>
+  <a class="nav-link" href="index.html#portfolio" onclick="closeBurger()">📂 Portfolio</a>
+  <a class="nav-link" href="realestate.html" onclick="closeBurger()">🏡 Real Estate 360 Tour</a>
+  <a class="nav-link" href="contact.html" onclick="closeBurger()">📞 Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-container">
+  <div class="hero-text">
+    <div class="hero-badge">✔ Trusted by 100+ Businesses in Gujarat</div>
+    <h1>Get More Customers with <span>Google 360° Virtual Tours</span></h1>
+    <p class="hero-sub">Turn online visitors into real customers. Let them explore your restaurant, hotel, showroom or office — before they visit — directly on Google Maps.</p>
+    <div class="hero-trust-line"><span>🏆</span> Increase walk-ins · Rank higher on Google · Zero recurring cost</div>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="tel:+918758685806">📞 Get Free Demo</a>
+      <a class="btn-secondary" href="#portfolio">👁 View Sample Tours</a>
+    </div>
+    <div class="hero-features">
+      <div class="feature"><span>📱</span>&nbsp;Mobile-first viewing experience</div>
+      <div class="feature"><span>🗺️</span>&nbsp;Live on Google Maps</div>
+      <div class="feature"><span>🧭</span>&nbsp;Interactive 360° navigation</div>
+      <div class="feature"><span>⭐</span>&nbsp;Build trust before every visit</div>
+    </div>
+  </div>
+  <div class="hero-mockup">
+    <div class="phone">
+      <div class="phone-screen">
+        <iframe src="https://www.google.com/maps/embed?pb=!4v1769019677469!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJQzQ5SWVnLXdF!2m2!1d22.47191135941974!2d70.05919104179245!3f133.7585665210189!4f-0.5309981683184475!5f0.7820865974627469" loading="lazy" allowfullscreen title="360 Virtual Tour Preview"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-num">100<span>+</span></div><div class="stat-label">Businesses Served</div></div>
+    <div class="stat-item"><div class="stat-num">10<span>+</span></div><div class="stat-label">Industries Covered</div></div>
+    <div class="stat-item"><div class="stat-num">7<span>Days</span></div><div class="stat-label">Avg. Delivery Time</div></div>
+    <div class="stat-item"><div class="stat-num">2<span>x</span></div><div class="stat-label">Avg. Enquiry Increase</div></div>
+  </div>
+</div>
+
+<!-- ABOUT THE SERVICE -->
+<section class="section white">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">About the Service</div>
+  <div class="what-grid">
+    <div class="what-content">
+      <h2>What is a Google 360° Virtual Tour?</h2>
+      <p>A Google 360 Virtual Tour is an interactive, immersive walkthrough of your business — integrated directly into your Google Maps listing and Google Business Profile.</p>
+      <p>Customers can explore your space in full 360°, navigate through different areas, and experience your interiors as if they were physically present — from any device, anywhere.</p>
+      <ul class="what-points">
+        <li>Explore your space in 360° — room by room</li>
+        <li>Published directly on Google Maps</li>
+        <li>Integrated with your Google Business Profile</li>
+        <li>Viewable on mobile, desktop &amp; tablet</li>
+        <li>Embeddable on your own website</li>
+      </ul>
+    </div>
+    <div class="what-iframe-wrap">
+      <iframe src="https://www.google.com/maps/embed?pb=!4v1769019677469!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJQzQ5SWVnLXdF!2m2!1d22.47191135941974!2d70.05919104179245!3f133.7585665210189!4f-0.5309981683184475!5f0.7820865974627469" loading="lazy" allowfullscreen title="Google 360 Virtual Tour Example"></iframe>
+    </div>
+  </div>
+
+  <!-- Customized Tour Block -->
+  <div class="custom-tour-block">
+    <div>
+      <div class="ct-label">✦ Premium Service</div>
+      <h3>Customized 360° Virtual Tour</h3>
+      <p>Go beyond a basic Google tour. Our Customized 360 Virtual Tour adds smart navigation, custom branding, and Interactive Hotspots — making your business stand out online.</p>
+      <div class="ct-hotspot-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>
+        Interactive Hotspots Included
+      </div>
+      <ul class="ct-features">
+        <li><span class="ct-check"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Smart Navigation System for seamless movement</li>
+        <li><span class="ct-check"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Custom Logo branding inside the tour</li>
+        <li><span class="ct-check"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:#fff;">Interactive Hotspots</strong> — clickable points inside the tour showing text info, images, videos &amp; links</span></li>
+        <li><span class="ct-check"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Embeddable on your website · Live in 7 Days</li>
+        <li><span class="ct-check"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>End-to-end support included</li>
+      </ul>
+      <a class="ct-cta" href="tel:+918758685806">📞 Get Free Consultation</a>
+    </div>
+    <div class="ct-iframe-wrap">
+      <iframe src="https://app.cloudpano.com/tours/_ZNIYdF5RI?disable=watermark&autoLoad=1&autoRotate=1" width="100%" height="100%" frameborder="0" allowfullscreen allow="xr-spatial-tracking; gyroscope; accelerometer" loading="lazy" title="Customized 360 Virtual Tour – Live Preview" style="border:0;display:block;width:100%;height:100%;"></iframe>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section gray">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Why It Works</div>
+  <h2>Benefits of Google Virtual Tours for Your Business</h2>
+  <p class="section-sub">Businesses using 360 virtual tour services see measurable improvements in trust, engagement, and conversions.</p>
+  <div class="benefits-grid">
+    <div class="benefit-card"><div class="benefit-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h3>Increase Customer Trust</h3><p>Let customers see your real space before visiting. Transparency builds confidence and reduces hesitation.</p></div>
+    <div class="benefit-card"><div class="benefit-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><h3>Boost Google Visibility</h3><p>Improve your presence on Google Maps and Search. Listings with tours receive significantly more engagement.</p></div>
+    <div class="benefit-card"><div class="benefit-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>Higher Engagement</h3><p>Users spend more time on your Google listing — a key signal Google uses to rank businesses higher.</p></div>
+    <div class="benefit-card"><div class="benefit-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><h3>Stand Out from Competitors</h3><p>Very few businesses use this. A virtual tour immediately sets you apart and creates a professional impression.</p></div>
+    <div class="benefit-card"><div class="benefit-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><h3>24/7 Virtual Access</h3><p>Your business stays open online, even when you're closed. Customers explore and decide at their own pace.</p></div>
+    <div class="benefit-card"><div class="benefit-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Better Conversion Rates</h3><p>More informed visitors mean more walk-ins. Businesses report a 2–3x increase in enquiries after going live.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="section white">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Who We Help</div>
+  <h2>Industries We Specialize In</h2>
+  <p class="section-sub">We provide 360 virtual tour services across multiple industries in Gujarat — tailored to your business type.</p>
+  <div class="industries-grid" id="industriesGrid">
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l2 4h14l2-4"/><rect x="2" y="6" width="20" height="14" rx="2"/><line x1="12" y1="6" x2="12" y2="20"/></svg></div><h3>Restaurants</h3><p>Show seating, ambience &amp; interiors to increase bookings.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><h3>Cafés</h3><p>Showcase vibe, design &amp; seating layout to attract footfall.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><h3>Hotels &amp; Resorts</h3><p>Let guests explore rooms, lobbies &amp; facilities before booking.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><h3>Showrooms</h3><p>Highlight layout, displays &amp; product arrangements interactively.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div><h3>Corporate Offices</h3><p>Present workspace, meeting areas &amp; environment professionally.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Industries</h3><p>Display production units &amp; infrastructure to build B2B trust.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><h3>Schools &amp; Colleges</h3><p>Show infrastructure &amp; environment to attract admissions.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><h3>Salons &amp; Spa</h3><p>Show ambience, hygiene &amp; service areas to attract clients.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Hospitals &amp; Clinics</h3><p>Build trust by showcasing facilities &amp; medical environment.</p></div>
+    <div class="ind-card"><div class="ind-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/><rect x="10" y="2" width="4" height="5" rx="0.5"/></svg></div><h3>Real Estate</h3><p>Let buyers virtually walk through properties before site visits, boosting qualified leads.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="section gray" id="portfolio">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Live Examples</div>
+  <h2>Our 360° Virtual Tour Portfolio</h2>
+  <p class="section-sub">Click any card to explore a live virtual tour. Use filters to browse by category.</p>
+  <div class="filter-bar" id="galleryFilterBar"></div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+  <div id="galleryMoreHint" class="gallery-more-hint" style="display:none;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Showing 12 of <span id="galleryTotalCount"></span> tours — Select a category above to explore all tours
+  </div>
+</div>
+</section>
+
+<!-- TOUR MODAL -->
+<div class="tour-modal-overlay" id="tourModalOverlay">
+  <div class="tour-modal">
+    <div class="tour-modal-head">
+      <h3 id="tourModalTitle">Tour</h3>
+      <button class="tour-modal-close" id="tourModalClose" aria-label="Close tour">&#10005;</button>
+    </div>
+    <div class="tour-modal-body" id="tourModalBody"></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section white">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Simple Process</div>
+  <h2>How Our Process Works</h2>
+  <p class="section-sub">Getting your virtual tour live is simple, fast, and hassle-free — just 3 easy steps</p>
+  <div class="steps-grid">
+    <div class="step-card"><div class="step-number">1</div><div class="step-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6.29 6.29l1.87-.87a2 2 0 0 1 2.11.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg></div><h3>Contact Us</h3><p>Share your requirements and preferred shoot date. We'll provide expert consultation and guide you through everything.</p><span class="step-outcome">→ Get expert consultation</span></div>
+    <div class="step-card"><div class="step-number">2</div><div class="step-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><h3>We Shoot Your Space</h3><p>Our expert team visits your location and captures professional 360° photos using high-quality equipment.</p><span class="step-outcome">→ High-quality professional capture</span></div>
+    <div class="step-card"><div class="step-number">3</div><div class="step-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#0a1620" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><h3>Go Live on Google</h3><p>Your tour is published on Google Maps &amp; Street View — customers can explore your space anytime, from anywhere.</p><span class="step-outcome">→ Rank higher · Attract customers</span></div>
+  </div>
+</div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="section dark">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Our Advantage</div>
+  <h2 style="color:#fff;">Why Businesses Choose Us</h2>
+  <p class="section-sub">We don't just take photos — we deliver a complete, end-to-end virtual tour experience.</p>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><h3>Professional Equipment</h3><p>High-resolution 360° cameras for crisp, immersive tour quality.</p></div>
+    <div class="why-card"><div class="why-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h3>Fast Turnaround</h3><p>Live on Google Maps within 7 Days of the photoshoot.</p></div>
+    <div class="why-card"><div class="why-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Affordable Pricing</h3><p>Starting ₹5,000. One-time investment. No recurring fees. Maximum ROI.</p></div>
+    <div class="why-card"><div class="why-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><h3>Local Expertise</h3><p>Serving businesses across Ahmedabad, Rajkot, Jamnagar, Surat &amp; all Gujarat.</p></div>
+    <div class="why-card"><div class="why-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><h3>Google Maps Integration</h3><p>Seamlessly integrated with your Google Business Profile.</p></div>
+    <div class="why-card"><div class="why-svg-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd54f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div><h3>End-to-End Service</h3><p>From shoot to publishing — we handle everything for you.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- RESULTS -->
+<section class="section gray">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Real Impact</div>
+  <h2>Results Our Clients See</h2>
+  <p class="section-sub">Businesses using Google 360 virtual tours report measurable, real-world improvements.</p>
+  <div class="results-grid">
+    <div class="result-card"><div class="result-num">+40<span>%</span></div><div class="result-label">More engagement on Google listing</div></div>
+    <div class="result-card"><div class="result-num">2<span>x</span></div><div class="result-label">Increase in walk-in inquiries</div></div>
+    <div class="result-card"><div class="result-num">+35<span>%</span></div><div class="result-label">Higher trust &amp; conversion rate</div></div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section white">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Client Stories</div>
+  <h2>What Our Clients Say</h2>
+  <p class="section-sub">Real feedback from businesses across Gujarat who've transformed their online presence.</p>
+  <div class="testi-grid">
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">"After adding a virtual tour, our walk-ins increased noticeably within the first month. Customers say they felt confident visiting us after seeing the space online."</p><div class="testi-author"><div class="testi-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M3 2l2 4h14l2-4"/><rect x="2" y="6" width="20" height="14" rx="2"/><line x1="12" y1="6" x2="12" y2="20"/></svg></div><div><div class="testi-name">Restaurant Owner</div><div class="testi-biz">Fine Dining, Rajkot</div></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">"The team was professional, quick, and the tour was live within the week. Our Google listing now stands out from competitors. Highly recommend Soham360."</p><div class="testi-author"><div class="testi-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="testi-name">Hotel Manager</div><div class="testi-biz">Boutique Hotel, Jamnagar</div></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">"Patients feel more comfortable visiting our clinic after seeing the facilities online. It's built trust in a way photos never could. Worth every rupee."</p><div class="testi-author"><div class="testi-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div><div class="testi-name">Clinic Director</div><div class="testi-biz">Multi-Specialty Clinic, Ahmedabad</div></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section class="section white">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">Investment</div>
+  <h2>Pricing &amp; Packages</h2>
+  <p class="section-sub">Choose the package that fits your business. Both include professional photoshoot &amp; end-to-end support.</p>
+  <div class="pricing-grid">
+    <div class="pricing-pkg">
+      <span class="pkg-badge">Standard</span>
+      <div class="pkg-name">Google 360 Virtual Tour</div>
+      <div class="pkg-price"><sup>₹</sup>5,000</div>
+      <p class="pkg-desc">Custom packages available for all business sizes</p>
+      <ul class="pkg-points">
+        <li><span class="pkg-check">✔</span> Upto 6 Panorama shots</li>
+        <li><span class="pkg-check">✔</span> Professional 360° photoshoot at your location</li>
+        <li><span class="pkg-check">✔</span> Published on Google Maps &amp; Street View</li>
+        <li><span class="pkg-check">✔</span> Embeddable on your website</li>
+        <li><span class="pkg-check">✔</span> Fast turnaround — live in 7 Days</li>
+        <li><span class="pkg-check">✔</span> One-time investment, no recurring charges</li>
+        <li><span class="pkg-check">✔</span> End-to-end support included</li>
+      </ul>
+      <a class="pkg-btn" href="tel:+918758685806">📞 Get This Package</a>
+      <p class="pkg-note">No commitment required · Free consultation</p>
+    </div>
+    <div class="pricing-pkg featured">
+      <span class="pkg-popular">⭐ Most Popular</span>
+      <span class="pkg-badge">Premium</span>
+      <div class="pkg-name">Customized 360 Virtual Tour</div>
+      <div class="pkg-price"><sup>₹</sup>10,000</div>
+      <p class="pkg-desc">Custom packages available for all business sizes</p>
+      <ul class="pkg-points">
+        <li><span class="pkg-check">✔</span> Upto 6 Panorama shots</li>
+        <li><span class="pkg-check">✔</span> Professional 360° photoshoot at your location</li>
+        <li><span class="pkg-check">✔</span> <strong>Smart Navigation System</strong></li>
+        <li><span class="pkg-check">✔</span> <strong>Custom Logo</strong> inside the tour</li>
+        <li><span class="pkg-check">✔</span> <strong>Interactive Hotspots</strong> — clickable points showing text, images, videos &amp; links</li>
+        <li><span class="pkg-check">✔</span> Embeddable on your website</li>
+        <li><span class="pkg-check">✔</span> Fast turnaround — live in 7 Days</li>
+        <li><span class="pkg-warn">⚠</span> Recurring charges applicable</li>
+        <li><span class="pkg-check">✔</span> End-to-end support included</li>
+      </ul>
+      <a class="pkg-btn" href="tel:+918758685806">📞 Get This Package</a>
+      <p class="pkg-note">No commitment required · Free consultation</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="section gray">
+<div class="section-inner">
+  <div class="section-tag" style="display:block;text-align:center;">FAQs</div>
+  <h2>Frequently Asked Questions</h2>
+  <p class="section-sub">Everything you need to know about Google 360 &amp; Customized virtual tours</p>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">What is a Google 360 virtual tour?</span><span class="faq-icon">+</span></div><div class="faq-a">It is an interactive virtual walkthrough of your business, integrated directly into Google Maps and your Google Business Profile. Users can explore your space in 360° as if they are physically present.</div></div>
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">How much does a virtual tour cost?</span><span class="faq-icon">+</span></div><div class="faq-a">Our Google 360 Virtual Tour starts from ₹5,000 and the Customized 360 Virtual Tour starts from ₹10,000. Pricing may vary based on space size and requirements. Contact us for a free custom quote.</div></div>
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">How long does it take to go live?</span><span class="faq-icon">+</span></div><div class="faq-a">Typically within 7 days from the photoshoot to publishing on Google Maps and Street View.</div></div>
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">Does a virtual tour help with SEO?</span><span class="faq-icon">+</span></div><div class="faq-a">Yes. Virtual tours increase user engagement and time spent on your Google listing — both of which positively impact your local SEO ranking on Google Maps and Search.</div></div>
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">Can I use the virtual tour on my website?</span><span class="faq-icon">+</span></div><div class="faq-a">Yes, your 360 virtual tour can be embedded easily on any website using an iframe, and can also be shared on social media platforms.</div></div>
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">Is it a one-time cost?</span><span class="faq-icon">+</span></div><div class="faq-a">The standard Google 360 Virtual Tour is a one-time investment with no recurring charges. The Customized 360 Virtual Tour has recurring charges for hosted interactive features like hotspots and navigation.</div></div>
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">What is a Customized 360 Virtual Tour and how is it different?<span class="faq-tag">Customized Tour</span></span><span class="faq-icon">+</span></div><div class="faq-a">A Customized 360 Virtual Tour goes beyond a standard Google tour by adding your own brand logo, a smart navigation system for seamless movement inside the tour, and Interactive Hotspots. These make your tour a fully interactive experience — not just a visual walkthrough.</div></div>
+    <div class="faq-item"><div class="faq-q"><span class="faq-q-text">What exactly are Interactive Hotspots in a Customized Tour?<span class="faq-tag">Customized Tour</span></span><span class="faq-icon">+</span></div><div class="faq-a">Interactive Hotspots are clickable markers you can place anywhere inside your virtual tour. When a visitor clicks them, a popup appears showing text info, an image, a video, or a clickable link.</div></div>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+<div class="contact-container">
+  <h2>Get Your Free 360° Tour Consultation</h2>
+  <p class="contact-tagline">Talk to our expert today — we'll help you showcase your space like never before. Quick response guaranteed.</p>
+  <div class="contact-card">
+    <div class="contact-person">
+      <div class="contact-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div><div class="contact-name">Mr. Alpesh</div><div class="contact-role">360° Virtual Tour Specialist · Soham360</div></div>
+    </div>
+    <hr class="divider">
+    <div class="contact-buttons">
+      <a class="btn-call" href="tel:+918758685806" aria-label="Call us now">📞 Call: 8758685806</a>
+      <a class="btn-wa" href="https://wa.me/918758685806" target="_blank" rel="noopener" aria-label="WhatsApp us"><svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 .5C7.44.5.5 7.44.5 16c0 2.72.69 5.28 1.9 7.52L.5 31.5l8.22-1.87A15.43 15.43 0 0016 31.5C24.56 31.5 31.5 24.56 31.5 16S24.56.5 16 .5zm7.27 18.4c-.4-.2-2.36-1.16-2.72-1.3-.37-.13-.63-.2-.9.2s-1.03 1.3-1.27 1.56c-.23.27-.46.3-.86.1a10.84 10.84 0 01-3.19-1.97 11.96 11.96 0 01-2.21-2.75c-.23-.4-.02-.61.17-.81.18-.18.4-.46.6-.69.2-.23.26-.4.4-.66.13-.27.07-.5-.03-.7-.1-.2-.9-2.16-1.23-2.96-.32-.78-.65-.67-.9-.68h-.76c-.27 0-.7.1-1.06.5s-1.4 1.36-1.4 3.32 1.43 3.85 1.63 4.12c.2.26 2.82 4.3 6.83 6.03.95.41 1.7.66 2.28.84.96.3 1.83.26 2.52.16.77-.12 2.36-.97 2.7-1.9.33-.93.33-1.73.23-1.9-.1-.17-.36-.27-.76-.47z"/></svg> WhatsApp Us</a>
+    </div>
+    <p class="contact-microcopy">No commitment required · Free consultation in 10 minutes · Quick response guaranteed</p>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>© 2026 · Soham360 · Google 360 Virtual Tour Service Provider · All Rights Reserved</div>
+  <div class="footer-cities">Serving: Ahmedabad | Rajkot | Jamnagar | Surat | Bhavnagar | Vadodara | All of Gujarat</div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
